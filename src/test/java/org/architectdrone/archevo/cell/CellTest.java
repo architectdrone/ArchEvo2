@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CellTest {
 
-    List<BitSet> test_genome;
+    List<Integer> test_genome;
     Cell test_cell;
     int test_number_of_genes = 32;
 
@@ -20,16 +20,7 @@ class CellTest {
         test_genome = new ArrayList<>();
         for (int i = 0; i < test_number_of_genes; i++)
         {
-            BitSet newBitSet = new BitSet(8);
-            newBitSet.set(0, true);
-            newBitSet.set(1, true);
-            newBitSet.set(2, true);
-            newBitSet.set(3, false);
-            newBitSet.set(4, true);
-            newBitSet.set(5, true);
-            newBitSet.set(6, true);
-            newBitSet.set(7, true);
-            test_genome.add(newBitSet);
+            test_genome.add(0b11101111);
         }
 
         test_cell = new Cell(test_genome);

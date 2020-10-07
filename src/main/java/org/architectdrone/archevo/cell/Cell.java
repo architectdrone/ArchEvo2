@@ -1,5 +1,8 @@
 package org.architectdrone.archevo.cell;
 
+import org.architectdrone.archevo.action.Action;
+import org.architectdrone.archevo.action.MoveInstructionPointer;
+import org.architectdrone.archevo.action.RegisterUpdate;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -13,10 +16,17 @@ public class Cell {
 
     private final List<Integer> registers; //There should only be 8 of these
     private int IP = 0; //Instruction pointer
-    private final List<BitSet> genome;
+    private final List<Integer> genome;
 
-    public Cell(@NotNull List<BitSet> genome) {
+    public Cell(@NotNull List<Integer> genome) {
         this.registers = new ArrayList<Integer>(Collections.nCopies(8, 0));
+        this.genome = genome;
+    }
+
+    private Cell(@NotNull List<Integer> genome, @NotNull List<Integer> registers, int IP)
+    {
+        this.registers = registers;
+        this.IP = IP;
         this.genome = genome;
     }
 
@@ -47,7 +57,7 @@ public class Cell {
      * Gets the genome
      * @return The genome
      */
-    public List<BitSet> getGenome() {
+    public List<Integer> getGenome() {
         return genome;
     }
 

@@ -10,7 +10,9 @@ import java.util.BitSet;
 public interface ISA {
     /**
      * Returns the action associated with the current position of an instruction pointer.
-     * @return
+     * @param currentCell  The cell to get the action for.
+     * @param offsetToCell A function that converts an offset from the current cell's position to a cell that may be at that location. May be null.
+     * @return The action that should be executed next.
      */
     public Action getAction(@NotNull Cell currentCell, @NotNull OffsetToCell offsetToCell );
 
@@ -21,16 +23,18 @@ public interface ISA {
     public int getNumberOfBitsPerInstruction();
 
     /**
-     * Converts a string representing an instruction into a bitset.
+     * Converts an instruction, written as a string, to binary.
      * @param instruction The instruction to convert
-     * @return The bitset
+     * @return The bitset.
+     * @throws ParsingException If a token in the instruction is not found.
+     * @throws MalformedInstructionException If an instruction violates a rule about the ISA.
      */
-    public BitSet stringToBits(@NotNull String instruction);
+    public Integer stringToBinary(@NotNull String instruction) throws ParsingException, MalformedInstructionException;
 
     /**
-     * Converts a bitset into a string.
+     * Converts binary into a string.
      * @param instruction the bitset
      * @return the resulting string
      */
-    public String bitsToString(@NotNull BitSet instruction);
+    public String binaryToString(@NotNull Integer instruction);
 }
