@@ -127,6 +127,19 @@ class ASIATest {
         }
 
         @Test
+        void getAction_withMoveRegisterInstruction_withIPLOC_movesR2ToR1() {
+            Cell test_cell = getCellWithInstructionAtIP0(0b10010100001);
+            test_cell.setRegister(0b0001, 16);
+            Cell other_cell = new Cell(new ArrayList<>());
+            other_cell.setRegister(0b0010, 42);
+            OffsetToCell returnOtherCell = (x, y) -> other_cell;
+            RegisterUpdate result = (RegisterUpdate) new ASIA().getAction(test_cell, returnOtherCell);
+
+            assertEquals(42, result.getNewValue());
+            assertEquals(0b0001, result.getRegisterToChange());
+        }
+
+        @Test
         void getAction_withSetIfLessThanInstruction_setsR1ToFF_whenR1IsLessThanR2() {
             Cell test_cell = getCellWithInstructionAtIP0(0b10100100001);
             test_cell.setRegister(0b0001, 16);

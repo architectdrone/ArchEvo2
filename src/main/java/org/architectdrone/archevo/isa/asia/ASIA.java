@@ -19,27 +19,27 @@ public class ASIA implements ISA {
 
         if (operation.getASIAOperationType() == ASIAOperationType.INCREMENT)
         {
-            return createRegisterUpdate(register_1, getRegisterValue(currentCell, register_1)+1);
+            return createRegisterUpdate(register_1, getRegisterValue(currentCell, register_1, offsetToCell)+1);
         }
         else if (operation.getASIAOperationType() == ASIAOperationType.DECREMENT)
         {
-            return createRegisterUpdate(register_1, getRegisterValue(currentCell, register_1)-1);
+            return createRegisterUpdate(register_1, getRegisterValue(currentCell, register_1, offsetToCell)-1);
         }
         else if (operation.getASIAOperationType() == ASIAOperationType.SHIFT_LEFT_LOGICAL)
         {
-            return createRegisterUpdate(register_1, getRegisterValue(currentCell, register_1)<<1);
+            return createRegisterUpdate(register_1, getRegisterValue(currentCell, register_1, offsetToCell)<<1);
         }
         else if (operation.getASIAOperationType() == ASIAOperationType.SHIFT_RIGHT_LOGICAL)
         {
-            return createRegisterUpdate(register_1, getRegisterValue(currentCell, register_1)>>>1);
+            return createRegisterUpdate(register_1, getRegisterValue(currentCell, register_1, offsetToCell)>>>1);
         }
         else if (operation.getASIAOperationType() == ASIAOperationType.MOVE_REGISTER)
         {
-            return  createRegisterUpdate(register_1, getRegisterValue(currentCell, register_2));
+            return  createRegisterUpdate(register_1, getRegisterValue(currentCell, register_2, offsetToCell));
         }
         else if (operation.getASIAOperationType() == ASIAOperationType.SET_IF_LESS_THAN)
         {
-            if (getRegisterValue(currentCell, register_1) < getRegisterValue(currentCell, register_2))
+            if (getRegisterValue(currentCell, register_1, offsetToCell) < getRegisterValue(currentCell, register_2, offsetToCell))
             {
                 return createRegisterUpdate(register_1, 0xFF);
             }
@@ -47,7 +47,7 @@ public class ASIA implements ISA {
         }
         else if (operation.getASIAOperationType() == ASIAOperationType.SET_IF_GREATER_THAN)
         {
-            if (getRegisterValue(currentCell, register_1) > getRegisterValue(currentCell, register_2))
+            if (getRegisterValue(currentCell, register_1, offsetToCell) > getRegisterValue(currentCell, register_2, offsetToCell))
             {
                 return createRegisterUpdate(register_1, 0xFF);
             }
@@ -55,7 +55,7 @@ public class ASIA implements ISA {
         }
         else if (operation.getASIAOperationType() == ASIAOperationType.SET_IF_EQUAL_TO)
         {
-            if (getRegisterValue(currentCell, register_1) == getRegisterValue(currentCell, register_2))
+            if (getRegisterValue(currentCell, register_1, offsetToCell) == getRegisterValue(currentCell, register_2, offsetToCell))
             {
                 return createRegisterUpdate(register_1, 0xFF);
             }
@@ -94,7 +94,7 @@ public class ASIA implements ISA {
         }
         else if (operation.getASIAOperationType() == ASIAOperationType.JUMP_CONDITIONALLY)
         {
-            if (getRegisterValue(currentCell, register_2) == 0xFF)
+            if (getRegisterValue(currentCell, register_2, offsetToCell) == 0xFF)
             {
                 return new MoveInstructionPointer(ASIAJumpHandler.getBestJumpLocation(currentCell.getGenome(), currentCell.getIP()));
             }
@@ -130,9 +130,28 @@ public class ASIA implements ISA {
         return new RegisterUpdate(new_value, register.getRegisterNumber());
     }
 
-    private int getRegisterValue(Cell cell, ASIARegister register)
+    private int getRegisterValue(Cell cell, ASIARegister register, OffsetToCell offsetToCell)
     {
-        return cell.getRegister(register.getRegisterNumber());
+        Cell cell_to_get;
+        if (register.isVirtualRegister())
+        {
+            Offset offset = iplocToOffset(cell.getRegister(0b111));
+            cell_to_get = offsetToCell.f(offset.x, offset.y);
+        }
+        else
+        {
+            cell_to_get = cell;
+        }
+
+        if (cell_to_get == null)
+        {
+            return 0;
+        }
+        else
+        {
+            return cell_to_get.getRegister(register.getRegisterNumber());
+        }
+
     }
 
     private int getRegisterValue(Cell cell, int registerNumber)
