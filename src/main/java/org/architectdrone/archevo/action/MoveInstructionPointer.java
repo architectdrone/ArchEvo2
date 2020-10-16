@@ -1,5 +1,8 @@
 package org.architectdrone.archevo.action;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public class MoveInstructionPointer implements Action {
     private final int new_instruction_pointer_location;
 

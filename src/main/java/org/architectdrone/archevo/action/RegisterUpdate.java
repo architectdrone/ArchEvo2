@@ -1,8 +1,11 @@
 package org.architectdrone.archevo.action;
 
+import lombok.EqualsAndHashCode;
+
 /**
  * Represents an action that only changes a register.
  */
+@EqualsAndHashCode
 public class RegisterUpdate implements Action {
     private final int new_value;
     private final int register_to_change;
