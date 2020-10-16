@@ -1,5 +1,6 @@
 package org.architectdrone.archevo.cell;
 
+import lombok.EqualsAndHashCode;
 import org.architectdrone.archevo.action.Action;
 import org.architectdrone.archevo.action.MoveInstructionPointer;
 import org.architectdrone.archevo.action.RegisterUpdate;
@@ -10,7 +11,7 @@ import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
 
-
+@EqualsAndHashCode
 public class Cell {
     final private int MAX_REGISTER_VALUE = 0xFF;
 
@@ -23,11 +24,34 @@ public class Cell {
         this.genome = genome;
     }
 
-    private Cell(@NotNull List<Integer> genome, @NotNull List<Integer> registers, int IP)
+    public Cell(Cell previous_state, Action action)
+    {
+        genome = previous_state.getGenome();
+        registers = previous_state.getRegisters();
+        setIP(previous_state.getIP()+1);
+
+        if (action.getClass() == RegisterUpdate.class)
+        {
+            RegisterUpdate registerUpdate = (RegisterUpdate) action;
+            setRegister(registerUpdate.getRegisterToChange(), registerUpdate.getNewValue());
+        }
+        else if (action.getClass() == MoveInstructionPointer.class)
+        {
+            MoveInstructionPointer moveInstructionPointer = (MoveInstructionPointer) action;
+            setIP(moveInstructionPointer.getNewInstructionPointerLocation());
+        }
+    }
+
+    public Cell(@NotNull List<Integer> genome, @NotNull List<Integer> registers, int IP)
     {
         this.registers = registers;
         this.IP = IP;
         this.genome = genome;
+    }
+
+    public List<Integer> getRegisters()
+    {
+        return registers;
     }
 
     /**

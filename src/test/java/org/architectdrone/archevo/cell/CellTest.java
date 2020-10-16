@@ -1,5 +1,11 @@
 package org.architectdrone.archevo.cell;
 
+import org.architectdrone.archevo.action.Attack;
+import org.architectdrone.archevo.action.DoNothing;
+import org.architectdrone.archevo.action.Move;
+import org.architectdrone.archevo.action.MoveInstructionPointer;
+import org.architectdrone.archevo.action.RegisterUpdate;
+import org.architectdrone.archevo.action.Reproduce;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -46,6 +52,77 @@ class CellTest {
     @Test
     void onInitialization_genomeIsWhatIsPassedIntoConstructor() {
         assertTrue(test_genome.equals(test_cell.getGenome()));
+    }
+
+    @Test
+    void onInitializationUsingFromActionConstructor_withRegisterUpdateAsAction_onlyIPAndRegisterChange() {
+        Cell cell = new Cell(test_genome);
+        cell.setIP(5);
+        RegisterUpdate action = new RegisterUpdate(3, 2);
+        Cell new_cell = new Cell(cell, action);
+        assertEquals(6, new_cell.getIP());
+        assertTrue(test_genome.equals(new_cell.getGenome()));
+        assertEquals(0, new_cell.getRegister(0));
+        assertEquals(0, new_cell.getRegister(1));
+        assertEquals(3, new_cell.getRegister(2));
+        assertEquals(0, new_cell.getRegister(3));
+        assertEquals(0, new_cell.getRegister(4));
+        assertEquals(0, new_cell.getRegister(5));
+    }
+
+    @Test
+    void onInitializationUsingFromActionConstructor_withMoveInstructionPointerAsAction_onlyIPChangesToRequiredValue() {
+        Cell cell = new Cell(test_genome);
+        cell.setIP(5);
+        MoveInstructionPointer action = new MoveInstructionPointer(3);
+        Cell new_cell = new Cell(cell, action);
+        assertEquals(3, new_cell.getIP());
+        assertTrue(test_genome.equals(new_cell.getGenome()));
+        assertTrue(cell.getRegisters().equals(new_cell.getRegisters()));
+    }
+
+    @Test
+    void onInitializationUsingFromActionConstructor_withAttackAsAction_onlyIPChanges() {
+        Cell cell = new Cell(test_genome);
+        cell.setIP(5);
+        Attack action = new Attack(3, 4);
+        Cell new_cell = new Cell(cell, action);
+        assertEquals(6, new_cell.getIP());
+        assertTrue(test_genome.equals(new_cell.getGenome()));
+        assertTrue(cell.getRegisters().equals(new_cell.getRegisters()));
+    }
+
+    @Test
+    void onInitializationUsingFromActionConstructor_withDoNothingAsAction_onlyIPChanges() {
+        Cell cell = new Cell(test_genome);
+        cell.setIP(5);
+        DoNothing action = new DoNothing();
+        Cell new_cell = new Cell(cell, action);
+        assertEquals(6, new_cell.getIP());
+        assertTrue(test_genome.equals(new_cell.getGenome()));
+        assertTrue(cell.getRegisters().equals(new_cell.getRegisters()));
+    }
+
+    @Test
+    void onInitializationUsingFromActionConstructor_withMoveAsAction_onlyIPChanges() {
+        Cell cell = new Cell(test_genome);
+        cell.setIP(5);
+        Move action = new Move(3, 4);
+        Cell new_cell = new Cell(cell, action);
+        assertEquals(6, new_cell.getIP());
+        assertTrue(test_genome.equals(new_cell.getGenome()));
+        assertTrue(cell.getRegisters().equals(new_cell.getRegisters()));
+    }
+
+    @Test
+    void onInitializationUsingFromActionConstructor_withReproduceAsAction_onlyIPChanges() {
+        Cell cell = new Cell(test_genome);
+        cell.setIP(5);
+        Reproduce action = new Reproduce(3, 4);
+        Cell new_cell = new Cell(cell, action);
+        assertEquals(6, new_cell.getIP());
+        assertTrue(test_genome.equals(new_cell.getGenome()));
+        assertTrue(cell.getRegisters().equals(new_cell.getRegisters()));
     }
 
     @Test
