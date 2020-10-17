@@ -81,7 +81,7 @@ public class CellContainerIterationHelper {
                     if (reproductionHandler.canReproduce(a.cell))
                     {
                         try {
-                            newCellContainer.set(reproducing_x, reproducing_y, getBabyCell(a.cell, reproductionHandler.newCellEnergy(a.cell)));
+                            newCellContainer.set(reproducing_x, reproducing_y, getBabyCell(a.cell, reproductionHandler.newCellEnergy(a.cell), isa));
                             a.cell.setRegister(0, a.cell.getRegister(0)-reproductionHandler.reproductionEnergyCost(a.cell));
                         } catch (Exception e) {
                             //If we encounter an exception, that means a cell is already in the place the parent wanted to reproduce in.
@@ -94,9 +94,9 @@ public class CellContainerIterationHelper {
         return newCellContainer;
     }
 
-    private static Cell getBabyCell(Cell parent, int initialEnergy) {
+    private static Cell getBabyCell(Cell parent, int initialEnergy, ISA isa) {
         //TODO
-        Cell baby = new Cell(parent.getGenome());
+        Cell baby = new Cell(parent.getGenome(), isa);
         baby.setRegister(0, initialEnergy);
         return baby;
     }

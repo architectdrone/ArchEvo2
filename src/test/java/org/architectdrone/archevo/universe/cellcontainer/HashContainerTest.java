@@ -11,7 +11,7 @@ class HashContainerTest {
     @Test
     void settingACellAtACoordinate_allowsTheCellToBeReturnedWithGetAtSameCoordinate() throws Exception {
         HashContainer hashContainer = new HashContainer(15);
-        Cell cell = new Cell(new ArrayList<>());
+        Cell cell = new Cell(new ArrayList<>(), null);
         hashContainer.set(1, 1, cell);
         assertEquals(cell, hashContainer.get(1, 1));
     }
@@ -19,7 +19,7 @@ class HashContainerTest {
     @Test
     void settingACellOutOutBounds_causesItToWrapToTheOtherSide() throws Exception {
         HashContainer hashContainer = new HashContainer(15);
-        Cell cell = new Cell(new ArrayList<>());
+        Cell cell = new Cell(new ArrayList<>(), null);
         hashContainer.set(-1, -1, cell);
         assertEquals(cell, hashContainer.get(14, 14));
         assertEquals(cell, hashContainer.get(-1, -1));
@@ -28,8 +28,8 @@ class HashContainerTest {
     @Test
     void settingACellAtACoordinate_thenSettingAnotherCellAtTheSameCoordinate_throwsException() throws Exception {
         HashContainer hashContainer = new HashContainer(15);
-        Cell cell1 = new Cell(new ArrayList<>());
-        Cell cell2 = new Cell(new ArrayList<>());
+        Cell cell1 = new Cell(new ArrayList<>(), null);
+        Cell cell2 = new Cell(new ArrayList<>(), null);
         hashContainer.set(1, 1, cell1);
         assertThrows(Exception.class, () -> hashContainer.set(1, 1, cell2));
     }
@@ -43,7 +43,7 @@ class HashContainerTest {
     @Test
     void deletingACellWorks() throws Exception {
         HashContainer hashContainer = new HashContainer(15);
-        Cell cell = new Cell(new ArrayList<>());
+        Cell cell = new Cell(new ArrayList<>(), null);
         hashContainer.set(1, 1, cell);
         assertEquals(cell, hashContainer.get(1, 1));
         hashContainer.delete(1, 1);
@@ -53,9 +53,9 @@ class HashContainerTest {
     @Test
     void loadingAList_works() throws Exception {
         List<CellPosition> cellPositionList = new ArrayList<>();
-        Cell cell1 = new Cell(new ArrayList<>());
-        Cell cell2 = new Cell(new ArrayList<>());
-        Cell cell3 = new Cell(new ArrayList<>());
+        Cell cell1 = new Cell(new ArrayList<>(), null);
+        Cell cell2 = new Cell(new ArrayList<>(), null);
+        Cell cell3 = new Cell(new ArrayList<>(), null);
         cellPositionList.add(new CellPosition(cell1, 1, 1));
         cellPositionList.add(new CellPosition(cell2, 2, 2));
         cellPositionList.add(new CellPosition(cell3, 3, 3));
@@ -69,7 +69,7 @@ class HashContainerTest {
     @Test
     void loadingAListWhenCellsAlreadyExist_throwsAnError() throws Exception {
         List<CellPosition> cellPositionList = new ArrayList<>();
-        Cell cell = new Cell(new ArrayList<>());
+        Cell cell = new Cell(new ArrayList<>(), null);
         HashContainer hashContainer = new HashContainer(15);
         hashContainer.set(1, 1, cell);
         assertThrows(Exception.class, () ->  hashContainer.load(cellPositionList) );
@@ -78,9 +78,9 @@ class HashContainerTest {
     @Test
     void gettingAllCells_works() throws Exception {
         HashContainer hashContainer = new HashContainer(15);
-        Cell cell1 = new Cell(new ArrayList<>());
-        Cell cell2 = new Cell(new ArrayList<>());
-        Cell cell3 = new Cell(new ArrayList<>());
+        Cell cell1 = new Cell(new ArrayList<>(), null);
+        Cell cell2 = new Cell(new ArrayList<>(), null);
+        Cell cell3 = new Cell(new ArrayList<>(), null);
         hashContainer.set(1, 1, cell1);
         hashContainer.set(2, 2, cell2);
         hashContainer.set(3, 3, cell3);
@@ -95,9 +95,9 @@ class HashContainerTest {
     @Test
     void gettingAllCellPositions_works() throws Exception {
         HashContainer hashContainer = new HashContainer(15);
-        Cell cell1 = new Cell(new ArrayList<>());
-        Cell cell2 = new Cell(new ArrayList<>());
-        Cell cell3 = new Cell(new ArrayList<>());
+        Cell cell1 = new Cell(new ArrayList<>(), null);
+        Cell cell2 = new Cell(new ArrayList<>(), null);
+        Cell cell3 = new Cell(new ArrayList<>(), null);
         hashContainer.set(1, 1, cell1);
         hashContainer.set(2, 2, cell2);
         hashContainer.set(3, 3, cell3);

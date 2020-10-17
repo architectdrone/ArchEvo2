@@ -18,6 +18,7 @@ import org.architectdrone.archevo.reproductionhandler.ReproductionHandler;
 import org.architectdrone.archevo.reproductionhandler.SetCost;
 import org.architectdrone.archevo.universe.IterationExecutionMode;
 import org.architectdrone.archevo.universe.cellcontainer.CellContainer;
+import org.architectdrone.archevo.universe.cellcontainer.HashContainer;
 import org.architectdrone.archevo.universe.cellcontainer.LinearContainer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -59,7 +60,7 @@ class CellContainerIterationHelperTest {
             List<Integer> genome = new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("UNASSIGNED")));
             genome.set(0, binary_instruction);
 
-            cell = new Cell(genome);
+            cell = new Cell(genome, null);
             cell.setRegister(register_number, 5);
 
             RegisterUpdate isa_result = (RegisterUpdate) isa.getAction(cell, (x, y) -> null);
@@ -79,7 +80,7 @@ class CellContainerIterationHelperTest {
             List<Integer> genome = new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("UNASSIGNED")));
             genome.set(0, binary_instruction);
 
-            cell = new Cell(genome);
+            cell = new Cell(genome, null);
             cell.setRegister(0b111, 0b10000000);
 
             Move isa_result = (Move) isa.getAction(cell, (x, y) -> null);
@@ -102,7 +103,7 @@ class CellContainerIterationHelperTest {
             List<Integer> genome = new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("UNASSIGNED")));
             genome.set(0, binary_instruction);
 
-            cell = new Cell(genome);
+            cell = new Cell(genome, null);
             cell.setRegister(0b111, 0b10000000);
 
             Move isa_result = (Move) isa.getAction(cell, (x, y) -> null);
@@ -112,7 +113,7 @@ class CellContainerIterationHelperTest {
             int new_x = isa_result.getXOffset() + 1;
             int new_y = isa_result.getYOffset() + 1;
 
-            Cell blocking_cell = new Cell(new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("UNASSIGNED"))));
+            Cell blocking_cell = new Cell(new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("UNASSIGNED"))), null);
 
             cellContainer.set(new_x, new_y, blocking_cell);
 
@@ -129,7 +130,7 @@ class CellContainerIterationHelperTest {
             List<Integer> genome = new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("UNASSIGNED")));
             genome.set(0, binary_instruction);
 
-            cell = new Cell(genome);
+            cell = new Cell(genome, null);
             cell.setRegister(0b111, 0b10000000);
             cell.setRegister(0b000, reproductionHandler.reproductionEnergyCost(cell)+1);
 
@@ -155,7 +156,7 @@ class CellContainerIterationHelperTest {
             List<Integer> genome = new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("UNASSIGNED")));
             genome.set(0, binary_instruction);
 
-            cell = new Cell(genome);
+            cell = new Cell(genome, null);
             cell.setRegister(0b111, 0b10000000);
             cell.setRegister(0b000, reproductionHandler.reproductionEnergyCost(cell)-1);
 
@@ -180,7 +181,7 @@ class CellContainerIterationHelperTest {
             List<Integer> genome = new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("UNASSIGNED")));
             genome.set(0, binary_instruction);
 
-            cell = new Cell(genome);
+            cell = new Cell(genome, null);
             cell.setRegister(0b111, 0b10000000);
             cell.setRegister(0b000, reproductionHandler.reproductionEnergyCost(cell)+1);
 
@@ -191,7 +192,7 @@ class CellContainerIterationHelperTest {
             int new_cell_x = isa_result.getXOffset() + 1;
             int new_cell_y = isa_result.getYOffset() + 1;
 
-            Cell blocking_cell = new Cell(new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("UNASSIGNED"))));
+            Cell blocking_cell = new Cell(new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("UNASSIGNED"))), null);
             cellContainer.set(new_cell_x, new_cell_y, blocking_cell);
 
             CellContainer newCellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, 0, combatHandler, reproductionHandler);
@@ -215,8 +216,8 @@ class CellContainerIterationHelperTest {
             List<Integer> attacker_genome = new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("UNASSIGNED")));
             attacker_genome.set(0, binary_instruction);
 
-            Cell attacker_cell = new Cell(attacker_genome);
-            Cell defender_cell = new Cell(defender_genome);
+            Cell attacker_cell = new Cell(attacker_genome, null);
+            Cell defender_cell = new Cell(defender_genome, null);
             attacker_cell.setRegister(0b111, 0b10000000);
             attacker_cell.setRegister(0b000, attacker_initial_energy);
             defender_cell.setRegister(0b000, defender_initial_energy);
@@ -241,7 +242,7 @@ class CellContainerIterationHelperTest {
     void instructionByInstructionMode_incrementsIPEachTimeItRuns() throws Exception {
         iterationExecutionMode = IterationExecutionMode.INSTRUCTION_BY_INSTRUCTION;
         cellContainer = new LinearContainer(size);
-        cell = new Cell(new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("UNASSIGNED"))));
+        cell = new Cell(new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("UNASSIGNED"))), null);
         cellContainer.set(1, 1, cell);
         CellContainer newCellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, 0, combatHandler, reproductionHandler);
         assertEquals(1, newCellContainer.get(1, 1).getIP());
@@ -255,7 +256,7 @@ class CellContainerIterationHelperTest {
         cellContainer = new LinearContainer(size);
         List<Integer> genome = new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("INCREMENT REG_A")));
         genome.set(4, isa.stringToBinary("ATTACK"));
-        cell = new Cell(genome);
+        cell = new Cell(genome, null);
         cell.setRegister(0b111, 0b00010000);
         cellContainer.set(1, 1, cell);
         CellContainer newCellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, 0, combatHandler, reproductionHandler);
@@ -268,7 +269,7 @@ class CellContainerIterationHelperTest {
         iterationExecutionMode = IterationExecutionMode.RUN_UNTIL_STATE_CHANGE_OR_N;
         cellContainer = new LinearContainer(size);
         List<Integer> genome = new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("INCREMENT REG_A")));
-        cell = new Cell(genome);
+        cell = new Cell(genome, null);
         cellContainer.set(1, 1, cell);
         CellContainer newCellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, 0, combatHandler, reproductionHandler);
         assertEquals(16, newCellContainer.get(1, 1).getRegister(3));
@@ -281,7 +282,7 @@ class CellContainerIterationHelperTest {
         cellContainer = new LinearContainer(size);
         List<Integer> genome = new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("INCREMENT REG_A")));
         genome.set(4, isa.stringToBinary("ATTACK"));
-        cell = new Cell(genome);
+        cell = new Cell(genome, null);
         cell.setRegister(0b111, 0b00010000);
         cellContainer.set(1, 1, cell);
         CellContainer newCellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, 0, combatHandler, reproductionHandler);
@@ -294,50 +295,65 @@ class CellContainerIterationHelperTest {
         iterationExecutionMode = IterationExecutionMode.RUN_UNTIL_STATE_CHANGE_OR_N_SAVE_IP;
         cellContainer = new LinearContainer(size);
         List<Integer> genome = new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("INCREMENT REG_A")));
-        cell = new Cell(genome);
+        cell = new Cell(genome, null);
         cellContainer.set(1, 1, cell);
         CellContainer newCellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, 0, combatHandler, reproductionHandler);
         assertEquals(16, newCellContainer.get(1, 1).getRegister(3));
         assertEquals(0, newCellContainer.get(1, 1).getIP());
     }
 
-//    @Test
-//    void speedTest_IterationByIteration() throws Exception {
-//        iterationExecutionMode = IterationExecutionMode.INSTRUCTION_BY_INSTRUCTION;
-//        CellContainer cellContainer = new LinearContainer(50);
-//        Random random = new Random();
-//        for (int i = 0; i < 50; i++) {
-//            try {
-//                cellContainer.set(random.nextInt(50), random.nextInt(50), getRandomCell());
-//            } catch (Exception e) {
-//            }
-//        }
-//        for (int i = 0; i < 1000000; i++) {
-//            cellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, 0, combatHandler, reproductionHandler);
-//        }
-//    }
+    @Test
+    void speedTest_IterationByIteration() throws Exception {
+        iterationExecutionMode = IterationExecutionMode.INSTRUCTION_BY_INSTRUCTION;
+        CellContainer cellContainer = new HashContainer(50);
+        Random random = new Random(42069);
+        for (int i = 0; i < 50; i++) {
+            try {
+                cellContainer.set(random.nextInt(50), random.nextInt(50), getRandomCell(random));
+            } catch (Exception e) {
+            }
+        }
+        int number_of_iterations = 1000;
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < number_of_iterations; i++) {
+            cellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, 0, combatHandler, reproductionHandler);
+        }
+        long end = System.currentTimeMillis();
+        long elapsed_ms = end-start;
+        float iterations_per_ms = number_of_iterations/elapsed_ms;
+        float iterations_per_s = iterations_per_ms * 1000;
+        System.out.println("INSTRUCTION BY INSTRUCTION runs at about " + iterations_per_s + " iterations per second.");
+    }
 
-//    @Test
-//    void speedTest_RunUntilNoSaveIP() throws Exception {
-//        iterationExecutionMode = IterationExecutionMode.RUN_UNTIL_STATE_CHANGE_OR_N;
-//        CellContainer cellContainer = new LinearContainer(50);
-//        Random random = new Random();
-//        for (int i = 0; i < 50; i++) {
-//            try {
-//                cellContainer.set(random.nextInt(50), random.nextInt(50), getRandomCell());
-//            } catch (Exception e) {
-//            }
-//        }
-//
-//        for (int i = 0; i < 1000000; i++) cellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, 0, combatHandler, reproductionHandler);
-//    }
+    @Test
+    void speedTest_RunUntilNoSaveIP() throws Exception {
+        iterationExecutionMode = IterationExecutionMode.RUN_UNTIL_STATE_CHANGE_OR_N;
+        CellContainer cellContainer = new LinearContainer(50);
+        Random random = new Random(42069);
+        for (int i = 0; i < 50; i++) {
+            try {
+                cellContainer.set(random.nextInt(50), random.nextInt(50), getRandomCell(random));
+            } catch (Exception e) {
+            }
+        }
 
-    Cell getRandomCell() {
-        Random random = new Random();
+        int number_of_iterations = 1000;
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < number_of_iterations; i++) {
+            cellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, 0, combatHandler, reproductionHandler);
+        }
+        long end = System.currentTimeMillis();
+        long elapsed_ms = end-start;
+        float iterations_per_ms = number_of_iterations/elapsed_ms;
+        float iterations_per_s = iterations_per_ms * 1000;
+        System.out.println("RUN_UNTIL_STATE_CHANGE_OR_N runs at about " + iterations_per_s + " iterations per second.");
+    }
+
+    Cell getRandomCell(Random random) {
         List<Integer> genome = new ArrayList<>();
         for (int i = 0; i < 16; i++) {
             genome.add(random.nextInt((int) Math.pow(2, 11)));
         }
-        return new Cell(genome);
+        return new Cell(genome, new ASIA());
     }
 }

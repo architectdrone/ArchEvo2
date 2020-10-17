@@ -130,7 +130,7 @@ class ASIATest {
         void getAction_withMoveRegisterInstruction_withIPLOC_movesR2ToR1() {
             Cell test_cell = getCellWithInstructionAtIP0(0b10010100001);
             test_cell.setRegister(0b0001, 16);
-            Cell other_cell = new Cell(new ArrayList<>());
+            Cell other_cell = new Cell(new ArrayList<>(), null);
             other_cell.setRegister(0b0010, 42);
             OffsetToCell returnOtherCell = (x, y) -> other_cell;
             RegisterUpdate result = (RegisterUpdate) new ASIA().getAction(test_cell, returnOtherCell);
@@ -349,7 +349,7 @@ class ASIATest {
             @Test
             void getAction_withJumpInstruction_jumpsToEndOfMatchingTemplate() {
                 genome.set(0, 0b00100000000);
-                Cell test_cell = new Cell(genome);
+                Cell test_cell = new Cell(genome, new ASIA());
                 MoveInstructionPointer result = (MoveInstructionPointer) new ASIA().getAction(test_cell, return_null);
 
                 assertEquals(14, result.getNewInstructionPointerLocation());
@@ -358,7 +358,7 @@ class ASIATest {
             @Test
             void getAction_withJumpConditionallyInstruction_jumpsToEndOfMatchingTemplate_whenR2IsFF() {
                 genome.set(0, 0b01000000000);
-                Cell test_cell = new Cell(genome);
+                Cell test_cell = new Cell(genome, new ASIA());
                 test_cell.setRegister(0b0000, 0xFF);
                 MoveInstructionPointer result = (MoveInstructionPointer) new ASIA().getAction(test_cell, return_null);
 
@@ -368,7 +368,7 @@ class ASIATest {
             @Test
             void getAction_withJumpConditionallyInstruction_jumpsToEndOfMatchingTemplate_whenR2IsNotFF() {
                 genome.set(0, 0b01000000000);
-                Cell test_cell = new Cell(genome);
+                Cell test_cell = new Cell(genome, new ASIA());
                 test_cell.setRegister(0b0000, 0x00);
                 MoveInstructionPointer result = (MoveInstructionPointer) new ASIA().getAction(test_cell, return_null);
 
@@ -565,7 +565,7 @@ class ASIATest {
             List<Integer> genome = new ArrayList<>(Collections.nCopies(16, 0));
             genome.set(0, instruction);
 
-            return new Cell(genome);
+            return new Cell(genome, null);
         }
     }
 }

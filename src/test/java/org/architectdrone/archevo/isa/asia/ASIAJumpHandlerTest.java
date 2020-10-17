@@ -3,6 +3,7 @@ package org.architectdrone.archevo.isa.asia;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import org.architectdrone.archevo.cell.Cell;
 import org.architectdrone.archevo.isa.MalformedInstructionException;
 import org.architectdrone.archevo.isa.ParsingException;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,13 +18,14 @@ class ASIAJumpHandlerTest {
     int nop_a;
     int nop_b;
     int unassigned;
+    ASIACachedDataGenerator asiaCachedDataGenerator = new ASIACachedDataGenerator();
+    ASIA asia = new ASIA();
     @BeforeEach
     void beforeEach() throws ParsingException, MalformedInstructionException {
         jump = ASIAInstruction.fromString("JUMP").toBinary();
         nop_a = ASIAInstruction.fromString("NOP_A").toBinary();
         nop_b = ASIAInstruction.fromString("NOP_B").toBinary();
         unassigned = ASIAInstruction.fromString("UNASSIGNED").toBinary();
-
     }
 
     @Test
@@ -41,7 +43,7 @@ class ASIAJumpHandlerTest {
         genome.set(13, nop_b);
 
         //If we jump to the end of the second template, we should end up at 14.
-        assertEquals(14, ASIAJumpHandler.getBestJumpLocation(genome, 8));
+        assertEquals(14, ASIAJumpHandler.getBestJumpLocation((ASIACachedData) asiaCachedDataGenerator.getCachedData(new Cell(genome, asia)), 8));
     }
 
     @Test
@@ -59,7 +61,7 @@ class ASIAJumpHandlerTest {
         genome.set(13, nop_a);
 
         //If we jump to the end of the second template, we should end up at 14.
-        assertEquals(14, ASIAJumpHandler.getBestJumpLocation(genome, 8));
+        assertEquals(14, ASIAJumpHandler.getBestJumpLocation((ASIACachedData) asiaCachedDataGenerator.getCachedData(new Cell(genome, asia)), 8));
     }
 
     @Test
@@ -77,7 +79,7 @@ class ASIAJumpHandlerTest {
         genome.set(0 , nop_b);
 
         //If we jump to the end of the second template, we should end up at 14.
-        assertEquals(1, ASIAJumpHandler.getBestJumpLocation(genome, 8));
+        assertEquals(1, ASIAJumpHandler.getBestJumpLocation((ASIACachedData) asiaCachedDataGenerator.getCachedData(new Cell(genome, asia)), 8));
     }
 
     @Test
@@ -99,7 +101,7 @@ class ASIAJumpHandlerTest {
         genome.set(0 , nop_b);
 
         //If we jump to the end of the second template, we should end up at 14.
-        assertEquals(1, ASIAJumpHandler.getBestJumpLocation(genome, 8));
+        assertEquals(1, ASIAJumpHandler.getBestJumpLocation((ASIACachedData) asiaCachedDataGenerator.getCachedData(new Cell(genome, asia)), 8));
     }
 
     @Test
@@ -114,7 +116,7 @@ class ASIAJumpHandlerTest {
         genome.set(12, nop_a);
         genome.set(13 , nop_a);
 
-        assertEquals(9, ASIAJumpHandler.getBestJumpLocation(genome, 8));
+        assertEquals(9, ASIAJumpHandler.getBestJumpLocation((ASIACachedData) asiaCachedDataGenerator.getCachedData(new Cell(genome, asia)), 8));
     }
 
     @Test
@@ -126,7 +128,7 @@ class ASIAJumpHandlerTest {
         genome.set(12, nop_a);
         genome.set(13 , nop_a);
 
-        assertEquals(14, ASIAJumpHandler.getEndOfTemplate(genome, 11));
+        assertEquals(14, ASIAJumpHandler.getEndOfTemplate((ASIACachedData) asiaCachedDataGenerator.getCachedData(new Cell(genome, asia)), 11));
     }
 
     @Test
@@ -138,7 +140,7 @@ class ASIAJumpHandlerTest {
         genome.set(12, nop_a);
         genome.set(13 , nop_a);
 
-        assertEquals(4, ASIAJumpHandler.getEndOfTemplate(genome, 3));
+        assertEquals(4, ASIAJumpHandler.getEndOfTemplate((ASIACachedData) asiaCachedDataGenerator.getCachedData(new Cell(genome, asia)), 3));
     }
 
 

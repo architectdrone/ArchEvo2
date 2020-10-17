@@ -23,7 +23,7 @@ class ASIARegisterTest {
             test_genome.add(0b11101111);
         }
 
-        test_cell = new Cell(test_genome);
+        test_cell = new Cell(test_genome, null);
     }
 
     @Test

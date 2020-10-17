@@ -2,6 +2,7 @@ package org.architectdrone.archevo.isa.asia;
 
 import org.architectdrone.archevo.action.*;
 import org.architectdrone.archevo.cell.Cell;
+import org.architectdrone.archevo.cell.ISACachedDataGenerator;
 import org.architectdrone.archevo.isa.ISA;
 import org.architectdrone.archevo.isa.MalformedInstructionException;
 import org.architectdrone.archevo.isa.ParsingException;
@@ -9,6 +10,8 @@ import org.architectdrone.archevo.misc.OffsetToCell;
 import org.jetbrains.annotations.NotNull;
 
 public class ASIA implements ISA {
+    public final static ASIACachedDataGenerator asiaCachedDataGenerator = new ASIACachedDataGenerator();
+
     @Override
     public Action getAction(@NotNull Cell currentCell, @NotNull OffsetToCell offsetToCell) {
         Integer instruction_binary = currentCell.getGenome().get(currentCell.getIP());
@@ -90,17 +93,17 @@ public class ASIA implements ISA {
         }
         else if (operation.getASIAOperationType() == ASIAOperationType.JUMP)
         {
-            return new MoveInstructionPointer(ASIAJumpHandler.getBestJumpLocation(currentCell.getGenome(), currentCell.getIP()));
+            return new MoveInstructionPointer(ASIAJumpHandler.getBestJumpLocation((ASIACachedData) currentCell.getIsaCachedData(), currentCell.getIP()));
         }
         else if (operation.getASIAOperationType() == ASIAOperationType.JUMP_CONDITIONALLY)
         {
             if (getRegisterValue(currentCell, register_2, offsetToCell) == 0xFF)
             {
-                return new MoveInstructionPointer(ASIAJumpHandler.getBestJumpLocation(currentCell.getGenome(), currentCell.getIP()));
+                return new MoveInstructionPointer(ASIAJumpHandler.getBestJumpLocation((ASIACachedData) currentCell.getIsaCachedData(), currentCell.getIP()));
             }
             else
             {
-                return new MoveInstructionPointer(ASIAJumpHandler.getEndOfTemplate(currentCell.getGenome(), currentCell.getIP()));
+                return new MoveInstructionPointer(ASIAJumpHandler.getEndOfTemplate((ASIACachedData) currentCell.getIsaCachedData(), currentCell.getIP()));
             }
         }
         else if (operation.getASIAOperationType() == ASIAOperationType.UNASSIGNED || operation.getASIAOperationType() == ASIAOperationType.NOP_A || operation.getASIAOperationType() == ASIAOperationType.NOP_B)
@@ -123,6 +126,11 @@ public class ASIA implements ISA {
     @Override
     public String binaryToString(@NotNull final Integer instruction) {
         return ASIAInstruction.fromBinary(instruction).toString();
+    }
+
+    @Override
+    public ISACachedDataGenerator getISACachedDataGenerator() {
+        return asiaCachedDataGenerator;
     }
 
     private RegisterUpdate createRegisterUpdate(ASIARegister register, int new_value)

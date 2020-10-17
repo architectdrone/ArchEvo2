@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
     @Test
     void settingACellAtACoordinate_allowsTheCellToBeReturnedWithGetAtSameCoordinate() throws Exception {
         LinearContainer linearContainer = new LinearContainer(15);
-        Cell cell = new Cell(new ArrayList<>());
+        Cell cell = new Cell(new ArrayList<>(), null);
         linearContainer.set(1, 1, cell);
         assertEquals(cell, linearContainer.get(1, 1));
     }
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
     @Test
     void settingACellOutOutBounds_causesItToWrapToTheOtherSide() throws Exception {
         LinearContainer linearContainer = new LinearContainer(15);
-        Cell cell = new Cell(new ArrayList<>());
+        Cell cell = new Cell(new ArrayList<>(), null);
         linearContainer.set(-1, -1, cell);
         assertEquals(cell, linearContainer.get(14, 14));
         assertEquals(cell, linearContainer.get(-1, -1));
@@ -29,8 +29,8 @@ import static org.junit.jupiter.api.Assertions.*;
      @Test
      void settingACellAtACoordinate_thenSettingAnotherCellAtTheSameCoordinate_throwsException() throws Exception {
          LinearContainer linearContainer = new LinearContainer(15);
-         Cell cell1 = new Cell(new ArrayList<>());
-         Cell cell2 = new Cell(new ArrayList<>());
+         Cell cell1 = new Cell(new ArrayList<>(), null);
+         Cell cell2 = new Cell(new ArrayList<>(), null);
          linearContainer.set(1, 1, cell1);
          assertThrows(Exception.class, () -> linearContainer.set(1, 1, cell2));
      }
@@ -44,7 +44,7 @@ import static org.junit.jupiter.api.Assertions.*;
      @Test
      void deletingACellWorks() throws Exception {
          LinearContainer linearContainer = new LinearContainer(15);
-         Cell cell = new Cell(new ArrayList<>());
+         Cell cell = new Cell(new ArrayList<>(), null);
          linearContainer.set(1, 1, cell);
          assertEquals(cell, linearContainer.get(1, 1));
          linearContainer.delete(1, 1);
@@ -54,9 +54,9 @@ import static org.junit.jupiter.api.Assertions.*;
      @Test
      void loadingAList_works() throws Exception {
         List<CellPosition> cellPositionList = new ArrayList<>();
-        Cell cell1 = new Cell(new ArrayList<>());
-        Cell cell2 = new Cell(new ArrayList<>());
-        Cell cell3 = new Cell(new ArrayList<>());
+        Cell cell1 = new Cell(new ArrayList<>(), null);
+        Cell cell2 = new Cell(new ArrayList<>(), null);
+        Cell cell3 = new Cell(new ArrayList<>(), null);
         cellPositionList.add(new CellPosition(cell1, 1, 1));
         cellPositionList.add(new CellPosition(cell2, 2, 2));
         cellPositionList.add(new CellPosition(cell3, 3, 3));
@@ -70,7 +70,7 @@ import static org.junit.jupiter.api.Assertions.*;
      @Test
      void loadingAListWhenCellsAlreadyExist_throwsAnError() throws Exception {
          List<CellPosition> cellPositionList = new ArrayList<>();
-         Cell cell = new Cell(new ArrayList<>());
+         Cell cell = new Cell(new ArrayList<>(), null);
          LinearContainer linearContainer = new LinearContainer(15);
          linearContainer.set(1, 1, cell);
          assertThrows(Exception.class, () ->  linearContainer.load(cellPositionList) );
@@ -79,9 +79,9 @@ import static org.junit.jupiter.api.Assertions.*;
      @Test
      void gettingAllCells_works() throws Exception {
          LinearContainer linearContainer = new LinearContainer(15);
-         Cell cell1 = new Cell(new ArrayList<>());
-         Cell cell2 = new Cell(new ArrayList<>());
-         Cell cell3 = new Cell(new ArrayList<>());
+         Cell cell1 = new Cell(new ArrayList<>(), null);
+         Cell cell2 = new Cell(new ArrayList<>(), null);
+         Cell cell3 = new Cell(new ArrayList<>(), null);
          linearContainer.set(1, 1, cell1);
          linearContainer.set(2, 2, cell2);
          linearContainer.set(3, 3, cell3);
@@ -96,9 +96,9 @@ import static org.junit.jupiter.api.Assertions.*;
      @Test
      void gettingAllCellPositions_works() throws Exception {
          LinearContainer linearContainer = new LinearContainer(15);
-         Cell cell1 = new Cell(new ArrayList<>());
-         Cell cell2 = new Cell(new ArrayList<>());
-         Cell cell3 = new Cell(new ArrayList<>());
+         Cell cell1 = new Cell(new ArrayList<>(), null);
+         Cell cell2 = new Cell(new ArrayList<>(), null);
+         Cell cell3 = new Cell(new ArrayList<>(), null);
          linearContainer.set(1, 1, cell1);
          linearContainer.set(2, 2, cell2);
          linearContainer.set(3, 3, cell3);

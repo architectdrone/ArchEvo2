@@ -29,7 +29,7 @@ class CellTest {
             test_genome.add(0b11101111);
         }
 
-        test_cell = new Cell(test_genome);
+        test_cell = new Cell(test_genome, null);
     }
 
     @Test
@@ -56,7 +56,7 @@ class CellTest {
 
     @Test
     void onInitializationUsingFromActionConstructor_withRegisterUpdateAsAction_onlyIPAndRegisterChange() {
-        Cell cell = new Cell(test_genome);
+        Cell cell = new Cell(test_genome, null);
         cell.setIP(5);
         RegisterUpdate action = new RegisterUpdate(3, 2);
         Cell new_cell = new Cell(cell, action);
@@ -72,7 +72,7 @@ class CellTest {
 
     @Test
     void onInitializationUsingFromActionConstructor_withMoveInstructionPointerAsAction_onlyIPChangesToRequiredValue() {
-        Cell cell = new Cell(test_genome);
+        Cell cell = new Cell(test_genome, null);
         cell.setIP(5);
         MoveInstructionPointer action = new MoveInstructionPointer(3);
         Cell new_cell = new Cell(cell, action);
@@ -83,7 +83,7 @@ class CellTest {
 
     @Test
     void onInitializationUsingFromActionConstructor_withAttackAsAction_onlyIPChanges() {
-        Cell cell = new Cell(test_genome);
+        Cell cell = new Cell(test_genome, null);
         cell.setIP(5);
         Attack action = new Attack(3, 4);
         Cell new_cell = new Cell(cell, action);
@@ -94,7 +94,7 @@ class CellTest {
 
     @Test
     void onInitializationUsingFromActionConstructor_withDoNothingAsAction_onlyIPChanges() {
-        Cell cell = new Cell(test_genome);
+        Cell cell = new Cell(test_genome, null);
         cell.setIP(5);
         DoNothing action = new DoNothing();
         Cell new_cell = new Cell(cell, action);
@@ -105,7 +105,7 @@ class CellTest {
 
     @Test
     void onInitializationUsingFromActionConstructor_withMoveAsAction_onlyIPChanges() {
-        Cell cell = new Cell(test_genome);
+        Cell cell = new Cell(test_genome, null);
         cell.setIP(5);
         Move action = new Move(3, 4);
         Cell new_cell = new Cell(cell, action);
@@ -116,7 +116,7 @@ class CellTest {
 
     @Test
     void onInitializationUsingFromActionConstructor_withReproduceAsAction_onlyIPChanges() {
-        Cell cell = new Cell(test_genome);
+        Cell cell = new Cell(test_genome, null);
         cell.setIP(5);
         Reproduce action = new Reproduce(3, 4);
         Cell new_cell = new Cell(cell, action);

@@ -2,6 +2,7 @@ package org.architectdrone.archevo.isa;
 
 import org.architectdrone.archevo.action.Action;
 import org.architectdrone.archevo.cell.Cell;
+import org.architectdrone.archevo.cell.ISACachedDataGenerator;
 import org.architectdrone.archevo.misc.OffsetToCell;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,4 +38,10 @@ public interface ISA {
      * @return the resulting string
      */
     public String binaryToString(@NotNull Integer instruction);
+
+    /**
+     * Gets the cached data generator.
+     * @return The cached data generator.
+     */
+    public ISACachedDataGenerator getISACachedDataGenerator();
 }

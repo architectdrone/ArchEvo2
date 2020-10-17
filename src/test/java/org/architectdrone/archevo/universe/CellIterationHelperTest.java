@@ -37,7 +37,7 @@ class CellIterationHelperTest {
                 List<Integer> genome = getEmptyGenome();
                 genome.set(0, isa.stringToBinary("INCREMENT REG_A"));
 
-                Cell original_cell = new Cell(genome);
+                Cell original_cell = new Cell(genome, null);
                 RegisterUpdate action_to_execute = (RegisterUpdate) isa.getAction(original_cell, offsetToCell);
                 CellIterationResult cellIterationResult = CellIterationHelper.iterate(original_cell, isa, offsetToCell, iterationExecutionMode);
                 Cell new_cell = cellIterationResult.new_state;
@@ -66,7 +66,7 @@ class CellIterationHelperTest {
                 genome.set(1, isa.stringToBinary("NOP_A"));
                 genome.set(9, isa.stringToBinary("NOP_A"));
 
-                Cell original_cell = new Cell(genome);
+                Cell original_cell = new Cell(genome, new ASIA());
                 MoveInstructionPointer action_to_execute = (MoveInstructionPointer) isa.getAction(original_cell, offsetToCell);
                 CellIterationResult cellIterationResult = CellIterationHelper.iterate(original_cell, isa, offsetToCell, iterationExecutionMode);
 
@@ -88,7 +88,7 @@ class CellIterationHelperTest {
                 List<Integer> genome = getEmptyGenome();
                 genome.set(0, isa.stringToBinary("UNASSIGNED"));
 
-                Cell original_cell = new Cell(genome);
+                Cell original_cell = new Cell(genome, null);
                 DoNothing action_to_execute = (DoNothing) isa.getAction(original_cell, offsetToCell);
                 CellIterationResult cellIterationResult = CellIterationHelper.iterate(original_cell, isa, offsetToCell, iterationExecutionMode);
 
@@ -113,7 +113,7 @@ class CellIterationHelperTest {
                 List<Integer> genome = getEmptyGenome();
                 genome.set(0, isa.stringToBinary("ATTACK"));
 
-                Cell original_cell = new Cell(genome);
+                Cell original_cell = new Cell(genome, null);
                 original_cell.setRegister(0b111, 4);
                 Action action_to_execute = isa.getAction(original_cell, offsetToCell);
                 CellIterationResult cellIterationResult = CellIterationHelper.iterate(original_cell, isa, offsetToCell, iterationExecutionMode);
@@ -136,7 +136,7 @@ class CellIterationHelperTest {
                 List<Integer> genome = getEmptyGenome();
                 genome.set(0, isa.stringToBinary("MOVE"));
 
-                Cell original_cell = new Cell(genome);
+                Cell original_cell = new Cell(genome, null);
                 original_cell.setRegister(0b111, 4);
                 Action action_to_execute = isa.getAction(original_cell, offsetToCell);
                 CellIterationResult cellIterationResult = CellIterationHelper.iterate(original_cell, isa, offsetToCell, iterationExecutionMode);
@@ -159,7 +159,7 @@ class CellIterationHelperTest {
                 List<Integer> genome = getEmptyGenome();
                 genome.set(0, isa.stringToBinary("REPRODUCE"));
 
-                Cell original_cell = new Cell(genome);
+                Cell original_cell = new Cell(genome, null);
                 original_cell.setRegister(0b111, 4);
                 Action action_to_execute = isa.getAction(original_cell, offsetToCell);
                 CellIterationResult cellIterationResult = CellIterationHelper.iterate(original_cell, isa, offsetToCell, iterationExecutionMode);
@@ -193,7 +193,7 @@ class CellIterationHelperTest {
                 genome.set(2, isa.stringToBinary("INCREMENT REG_A"));
                 genome.set(3, isa.stringToBinary("INCREMENT REG_A"));
                 genome.set(4, isa.stringToBinary("MOVE"));
-                Cell original_cell = new Cell(genome);
+                Cell original_cell = new Cell(genome, null);
                 original_cell.setRegister(0b111, 4);
 
                 CellIterationResult cellIterationResult = CellIterationHelper.iterate(original_cell, isa, offsetToCell, iterationExecutionMode);
@@ -220,7 +220,7 @@ class CellIterationHelperTest {
             void untilN() throws ParsingException, MalformedInstructionException {
                 //Final value should be 16, since N is 16.
                 List<Integer> genome = new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("INCREMENT REG_A")));
-                Cell original_cell = new Cell(genome);
+                Cell original_cell = new Cell(genome, null);
 
                 CellIterationResult cellIterationResult = CellIterationHelper.iterate(original_cell, isa, offsetToCell, iterationExecutionMode);
                 Cell new_cell = cellIterationResult.new_state;
@@ -255,7 +255,7 @@ class CellIterationHelperTest {
                 genome.set(2, isa.stringToBinary("INCREMENT REG_A"));
                 genome.set(3, isa.stringToBinary("INCREMENT REG_A"));
                 genome.set(4, isa.stringToBinary("MOVE"));
-                Cell original_cell = new Cell(genome);
+                Cell original_cell = new Cell(genome, null);
                 original_cell.setRegister(0b111, 4);
                 CellIterationResult cellIterationResult = CellIterationHelper.iterate(original_cell, isa, offsetToCell, iterationExecutionMode);
                 Cell new_cell = cellIterationResult.new_state;
@@ -281,7 +281,7 @@ class CellIterationHelperTest {
             void untilN() throws ParsingException, MalformedInstructionException {
                 //Final value should be 16, since N is 16.
                 List<Integer> genome = new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("INCREMENT REG_A")));
-                Cell original_cell = new Cell(genome);
+                Cell original_cell = new Cell(genome, null);
 
                 CellIterationResult cellIterationResult = CellIterationHelper.iterate(original_cell, isa, offsetToCell, iterationExecutionMode);
                 Cell new_cell = cellIterationResult.new_state;
