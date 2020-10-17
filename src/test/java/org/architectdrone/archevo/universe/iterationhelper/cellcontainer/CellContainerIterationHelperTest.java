@@ -312,8 +312,9 @@ class CellContainerIterationHelperTest {
 //            } catch (Exception e) {
 //            }
 //        }
-//
-//        for (int i = 0; i < 1000000; i++) cellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, 0, combatHandler, reproductionHandler);
+//        for (int i = 0; i < 1000000; i++) {
+//            cellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, 0, combatHandler, reproductionHandler);
+//        }
 //    }
 
 //    @Test
@@ -335,7 +336,7 @@ class CellContainerIterationHelperTest {
         Random random = new Random();
         List<Integer> genome = new ArrayList<>();
         for (int i = 0; i < 16; i++) {
-            genome.add((int) Math.pow(2, 11));
+            genome.add(random.nextInt((int) Math.pow(2, 11)));
         }
         return new Cell(genome);
     }
