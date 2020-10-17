@@ -4,6 +4,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.architectdrone.archevo.action.Action;
 import org.architectdrone.archevo.action.Attack;
@@ -28,7 +30,9 @@ public class CellContainerIterationHelper {
             IterationExecutionMode iterationExecutionMode,
             int move_cost,
             CombatHandler combatHandler,
-            ReproductionHandler reproductionHandler) throws Exception {
+            ReproductionHandler reproductionHandler,
+            float mutation_chance,
+            Random random) throws Exception {
         List<CellIterationResultAndPosition> cellIterationResultAndPositionList = cellContainer.getAllPositions()
                 .stream()
                 .map((cellPosition) -> {
@@ -81,7 +85,7 @@ public class CellContainerIterationHelper {
                     if (reproductionHandler.canReproduce(a.cell))
                     {
                         try {
-                            newCellContainer.set(reproducing_x, reproducing_y, getBabyCell(a.cell, reproductionHandler.newCellEnergy(a.cell), isa));
+                            newCellContainer.set(reproducing_x, reproducing_y, getBabyCell(a.cell, reproductionHandler.newCellEnergy(a.cell), mutation_chance, random, isa));
                             a.cell.setRegister(0, a.cell.getRegister(0)-reproductionHandler.reproductionEnergyCost(a.cell));
                         } catch (Exception e) {
                             //If we encounter an exception, that means a cell is already in the place the parent wanted to reproduce in.
@@ -94,11 +98,35 @@ public class CellContainerIterationHelper {
         return newCellContainer;
     }
 
-    private static Cell getBabyCell(Cell parent, int initialEnergy, ISA isa) {
+    private static Cell getBabyCell(Cell parent, int initialEnergy, float mutation_chance, Random random, ISA isa) {
         //TODO
-        Cell baby = new Cell(parent.getGenome(), isa);
+        Cell baby = new Cell(mutateGenome(parent.getGenome(), mutation_chance, random, isa), isa);
         baby.setRegister(0, initialEnergy);
         return baby;
+    }
+
+    private static List<Integer> mutateGenome(List<Integer> initial_genome, float mutation_chance, Random random, ISA isa)
+    {
+        List<Integer> genome_to_return = new ArrayList<>();
+        initial_genome.forEach((a) -> genome_to_return.add(mutateGene(a, mutation_chance, random, isa)));
+        return genome_to_return;
+    }
+
+    private static Integer mutateGene(Integer gene, float mutation_chance, Random random, ISA isa)
+    {
+        Function<Float, Integer> get1Random = (a) -> {
+            if (random.nextFloat() < mutation_chance) return 1;
+            else return 0;
+        };
+
+        Integer mask = 0;
+
+        for (int i = 0; i < isa.getNumberOfBitsPerInstruction(); i++)
+        {
+            mask = mask << 1;
+            mask += get1Random.apply(mutation_chance);
+        }
+        return gene ^ mask;
     }
 
     private static OffsetToCell getOffsetToCell(int base_x, int base_y, CellContainer cellContainer) {
