@@ -1,4 +1,4 @@
-package org.architectdrone.archevo.universe.cellcontainer;
+package org.architectdrone.archevo.cellcontainer;
 
 import java.util.ArrayList;
 import java.util.List;

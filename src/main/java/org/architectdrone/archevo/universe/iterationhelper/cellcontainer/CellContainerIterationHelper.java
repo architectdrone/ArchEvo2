@@ -1,7 +1,6 @@
 package org.architectdrone.archevo.universe.iterationhelper.cellcontainer;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,9 +17,8 @@ import org.architectdrone.archevo.isa.ISA;
 import org.architectdrone.archevo.misc.OffsetToCell;
 import org.architectdrone.archevo.reproductionhandler.ReproductionHandler;
 import org.architectdrone.archevo.universe.IterationExecutionMode;
-import org.architectdrone.archevo.universe.cellcontainer.CellContainer;
-import org.architectdrone.archevo.universe.cellcontainer.CellPosition;
-import org.architectdrone.archevo.universe.cellcontainer.LinearContainer;
+import org.architectdrone.archevo.cellcontainer.CellContainer;
+import org.architectdrone.archevo.cellcontainer.CellPosition;
 import org.architectdrone.archevo.universe.iterationhelper.cell.CellIterationHelper;
 import org.architectdrone.archevo.universe.iterationhelper.cell.CellIterationResult;
 

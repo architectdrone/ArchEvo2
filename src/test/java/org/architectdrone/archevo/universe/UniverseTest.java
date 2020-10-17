@@ -1,13 +1,9 @@
 package org.architectdrone.archevo.universe;
 
-import java.util.Comparator;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import org.architectdrone.archevo.combathandler.CaptureTheFlag;
 import org.architectdrone.archevo.isa.asia.ASIA;
 import org.architectdrone.archevo.reproductionhandler.SetCost;
-import org.architectdrone.archevo.universe.cellcontainer.CellPosition;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

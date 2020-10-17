@@ -1,4 +1,4 @@
-package org.architectdrone.archevo.universe.cellcontainer;
+package org.architectdrone.archevo.cellcontainer;
 
 import java.util.HashMap;
 import java.util.List;

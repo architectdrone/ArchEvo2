@@ -8,8 +8,8 @@ import org.architectdrone.archevo.cell.Cell;
 import org.architectdrone.archevo.combathandler.CombatHandler;
 import org.architectdrone.archevo.isa.ISA;
 import org.architectdrone.archevo.reproductionhandler.ReproductionHandler;
-import org.architectdrone.archevo.universe.cellcontainer.CellContainer;
-import org.architectdrone.archevo.universe.cellcontainer.LinearContainer;
+import org.architectdrone.archevo.cellcontainer.CellContainer;
+import org.architectdrone.archevo.cellcontainer.LinearContainer;
 import org.architectdrone.archevo.universe.iterationhelper.cellcontainer.CellContainerIterationHelper;
 
 public class Universe {
