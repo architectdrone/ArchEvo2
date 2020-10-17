@@ -102,7 +102,47 @@ class ASIAJumpHandlerTest {
         assertEquals(1, ASIAJumpHandler.getBestJumpLocation(genome, 8));
     }
 
+    @Test
+    void whenNoTemplateExistsAfterCurrentLocation_incrementIP() throws ParsingException {
+        //Create Genome
+        List<Integer> genome = getEmptyGenome(16);
+
+        //Put a jump at 8
+        genome.set(8 , jump);
+
+        //Put the template at 12 and 13.
+        genome.set(12, nop_a);
+        genome.set(13 , nop_a);
+
+        assertEquals(9, ASIAJumpHandler.getBestJumpLocation(genome, 8));
+    }
+
+    @Test
+    void getEndOfTemplate_works() throws ParsingException {
+        //Create Genome
+        List<Integer> genome = getEmptyGenome(16);
+
+        //Put the template at 12 and 13.
+        genome.set(12, nop_a);
+        genome.set(13 , nop_a);
+
+        assertEquals(14, ASIAJumpHandler.getEndOfTemplate(genome, 11));
+    }
+
+    @Test
+    void getEndOfTemplate_incrementsIP_whenNoTemplateIsAtIP() throws ParsingException {
+        //Create Genome
+        List<Integer> genome = getEmptyGenome(16);
+
+        //Put the template at 12 and 13.
+        genome.set(12, nop_a);
+        genome.set(13 , nop_a);
+
+        assertEquals(4, ASIAJumpHandler.getEndOfTemplate(genome, 3));
+    }
+
+
     private List<Integer> getEmptyGenome(int size) throws ParsingException {
-        return new ArrayList<Integer>(Collections.nCopies(size, unassigned));
+        return new ArrayList<>(Collections.nCopies(size, unassigned));
     }
 }
