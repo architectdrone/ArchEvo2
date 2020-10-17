@@ -67,7 +67,7 @@ public class CellContainerIterationHelper {
                     int attacking_y = a.y+attack.getYOffset();
                     Cell defendingCell = newCellContainer.get(attacking_x, attacking_y);
                     CombatResult result = combatHandler.getResult(a.cell, defendingCell);
-                    newCellContainer.get(a.x, a.y).setRegister(0, a.cell.getRegister(0)+ result.getAttackerEnergyChange());
+                    a.cell.setRegister(0, a.cell.getRegister(0)+ result.getAttackerEnergyChange());
                     if (newCellContainer.get(attacking_x, attacking_y) != null)
                     {
                         defendingCell.setRegister(0, defendingCell.getRegister(0)+ result.getDefenderEnergyChange());
