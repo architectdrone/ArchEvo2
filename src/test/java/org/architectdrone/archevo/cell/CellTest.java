@@ -191,5 +191,12 @@ class CellTest {
     void settingEnergyLessThan0_killsTheCell() {
         test_cell.setRegister(0, -5);
         assertTrue(test_cell.isDead());
+        assertEquals(0, test_cell.getRegister(0));
+    }
+
+    @Test
+    void settingEnergyGreaterThan0xFF_doesNotWrap() {
+        test_cell.setRegister(0, (0xFF)+20);
+        assertEquals(0xFF, test_cell.getRegister(0));
     }
 }

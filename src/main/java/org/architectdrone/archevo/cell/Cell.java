@@ -92,16 +92,26 @@ public class Cell {
     /**
      * Sets the register with the given registerNumber
      * @param registerNumber The register of the number to change. Must not be less than zero or greater than seven.
-     * @param newRegisterValue The new value of the register. Will be wrapped in the range from 0x00 to 0xFF.
+     * @param newRegisterValue The new value of the register. Will be wrapped in the range from 0x00 to 0xFF, unless the register is 0, in which case, if it is greater than 0xFF, will stay at 0xFF.
      */
     public void setRegister(int registerNumber, int newRegisterValue) {
         assert registerNumber >= 0;
         assert registerNumber <= 7;
-        if (registerNumber == 0 && newRegisterValue < 0)
+
+        if (registerNumber == 0)
         {
-            dead = true;
+            if (newRegisterValue < 0)
+            {
+                dead = true;
+                registers.set(0, 0);
+            }
+             else registers.set(0, Math.min(newRegisterValue, MAX_REGISTER_VALUE));
         }
-        registers.set(registerNumber, Math.floorMod(newRegisterValue, MAX_REGISTER_VALUE+1));
+        else
+        {
+            registers.set(registerNumber, Math.floorMod(newRegisterValue, MAX_REGISTER_VALUE+1));
+        }
+
     }
 
     /**
