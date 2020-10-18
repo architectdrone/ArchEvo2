@@ -101,7 +101,10 @@ public class CellContainerIterationHelper {
                     if (reproductionHandler.canReproduce(a.cell))
                     {
                         try {
-                            newCellContainer.set(reproducing_x, reproducing_y, getBabyCell(a.cell, reproductionHandler.newCellEnergy(a.cell), mutation_chance, random, isa));
+                            Cell baby_cell = getBabyCell(a.cell, reproductionHandler.newCellEnergy(a.cell), mutation_chance, random, isa);
+                            baby_cell.cellStats.lineage = a.cell.cellStats.lineage + 1;
+                            newCellContainer.set(reproducing_x, reproducing_y, baby_cell);
+
                             a.cell.setRegister(0, a.cell.getRegister(0)-reproductionHandler.reproductionEnergyCost(a.cell));
                         } catch (IntersectionException e) {
                             //If we encounter an exception, that means a cell is already in the place the parent wanted to reproduce in.

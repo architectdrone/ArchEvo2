@@ -176,6 +176,7 @@ class CellContainerIterationHelperTest {
             assertEquals(reproductionHandler.newCellEnergy(cell), newCellContainer.get(new_cell_x, new_cell_y).getRegister(0));
             assertNotEquals(null, newCellContainer.get(1, 1));
             assertEquals(1, newCellContainer.get(1,1).getRegister(0));
+            assertEquals(1, newCellContainer.get(new_cell_x, new_cell_y).cellStats.lineage);
         }
 
         @Test

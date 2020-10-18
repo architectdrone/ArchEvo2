@@ -21,6 +21,7 @@ public class Cell {
     private final List<Integer> genome;
     private final ISACachedData isaCachedData;
     private boolean dead = false;
+    public CellStats cellStats = new CellStats();
 
     public Cell(@NotNull List<Integer> genome, final ISA isa) {
         this.registers = new ArrayList<Integer>(Collections.nCopies(8, 0));
@@ -34,7 +35,6 @@ public class Cell {
         {
             isaCachedData = null;
         }
-
     }
 
     public Cell(Cell previous_state, Action action)
