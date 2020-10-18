@@ -25,7 +25,8 @@ public class Universe {
     private final Random randomness;
     public final float mutation_chance;
     public final int influx_rate;
-
+    @Getter
+    private int numberOfInterations = 0;
     public Universe(ISA isa,
             int universe_size,
             IterationExecutionMode iterationExecutionMode,
@@ -49,6 +50,7 @@ public class Universe {
     }
 
     public void iterate() throws Exception {
+        numberOfInterations++;
         for (int i = 0; i < influx_rate; i++)
         {
             int random_x = randomness.nextInt(cellContainer.getSize());
