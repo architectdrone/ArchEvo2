@@ -26,23 +26,25 @@ public class Universe {
     private final Random randomness;
     public final float mutation_chance;
     public final int influx_rate;
+    public final int iteration_cost;
     @Getter
     private int numberOfInterations = 0;
     public Universe(ISA isa,
-            int universe_size,
-            IterationExecutionMode iterationExecutionMode,
-            int move_cost,
-            CombatHandler combatHandler,
-            ReproductionHandler reproductionHandler,
-            final float mutation_chance,
-            final int influx_rate,
-            final int initial_energy,
-            final int seed)
+                    int universe_size,
+                    IterationExecutionMode iterationExecutionMode,
+                    int move_cost,
+                    int iteration_cost, CombatHandler combatHandler,
+                    ReproductionHandler reproductionHandler,
+                    final float mutation_chance,
+                    final int influx_rate,
+                    final int initial_energy,
+                    final int seed)
     {
         this.isa = isa;
         this.cellContainer = new LinearContainer(universe_size);
         this.iterationExecutionMode = iterationExecutionMode;
         this.move_cost = move_cost;
+        this.iteration_cost = iteration_cost;
         this.combatHandler = combatHandler;
         this.reproductionHandler = reproductionHandler;
         this.initial_energy = initial_energy;
@@ -66,7 +68,7 @@ public class Universe {
             }
 
         }
-        cellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, move_cost, combatHandler, reproductionHandler, mutation_chance, randomness);
+        cellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, move_cost, iteration_cost, combatHandler, reproductionHandler, mutation_chance, randomness);
     }
 
     private void addRandomCell(int x, int y) throws Exception {

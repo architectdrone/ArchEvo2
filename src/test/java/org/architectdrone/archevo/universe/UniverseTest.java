@@ -16,6 +16,7 @@ class UniverseTest {
                 50,
                 IterationExecutionMode.INSTRUCTION_BY_INSTRUCTION,
                 1,
+                0,
                 new CaptureTheFlag(),
                 new SetCost(),
                 0.3f,

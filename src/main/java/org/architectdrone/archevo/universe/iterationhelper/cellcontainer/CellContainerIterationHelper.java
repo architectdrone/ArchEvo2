@@ -29,6 +29,7 @@ public class CellContainerIterationHelper {
             ISA isa,
             IterationExecutionMode iterationExecutionMode,
             int move_cost,
+            int iteration_cost,
             CombatHandler combatHandler,
             ReproductionHandler reproductionHandler,
             float mutation_chance,
@@ -63,6 +64,7 @@ public class CellContainerIterationHelper {
 
         cellIterationResultAndPositionList.forEach((a) -> {
             a.cell.cellStats.age++; //Increment age.
+            a.cell.setRegister(0, a.cell.getRegister(0)-iteration_cost);
             if (a.action != null) {
                 if (a.action instanceof Move)
                 {
@@ -103,7 +105,7 @@ public class CellContainerIterationHelper {
                     {
                         try {
                             Cell baby_cell = getBabyCell(a.cell, reproductionHandler.newCellEnergy(a.cell), mutation_chance, random, isa);
-                            baby_cell.cellStats.lineage++;
+                            baby_cell.cellStats.lineage = a.cell.cellStats.lineage+1;
                             newCellContainer.set(reproducing_x, reproducing_y, baby_cell);
 
                             a.cell.setRegister(0, a.cell.getRegister(0)-reproductionHandler.reproductionEnergyCost(a.cell));
@@ -120,7 +122,6 @@ public class CellContainerIterationHelper {
     }
 
     private static Cell getBabyCell(Cell parent, int initialEnergy, float mutation_chance, Random random, ISA isa) {
-        //TODO
         Cell baby = new Cell(mutateGenome(parent.getGenome(), mutation_chance, random, isa), isa);
         baby.setRegister(0, initialEnergy);
         return baby;
