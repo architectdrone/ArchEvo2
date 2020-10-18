@@ -74,6 +74,7 @@ class CellContainerIterationHelperTest {
 
             assertEquals(isa_result.getNewValue(), resultant_cell.getRegister(isa_result.getRegisterToChange()));
             assertEquals(1, resultant_cell.getIP());
+            assertEquals(1, resultant_cell.cellStats.age);
         }
 
         @Test
@@ -98,6 +99,7 @@ class CellContainerIterationHelperTest {
             assertNotEquals(null, newCellContainer.get(new_x, new_y));
             assertEquals(null, newCellContainer.get(1, 1));
             assertEquals(4, newCellContainer.get(new_x, new_y).getRegister(0));
+            assertEquals(1, newCellContainer.get(new_x, new_y).cellStats.age);
         }
 
         @Test
@@ -126,6 +128,7 @@ class CellContainerIterationHelperTest {
             assertEquals(4, newCellContainer.get(1, 1).getRegister(0));
             assertEquals(cell.getGenome(), newCellContainer.get(1, 1).getGenome());
             assertEquals(blocking_cell.getGenome(), newCellContainer.get(new_x, new_y).getGenome());
+            assertEquals(1, newCellContainer.get(1, 1).cellStats.age);
         }
 
         @Test
@@ -150,6 +153,7 @@ class CellContainerIterationHelperTest {
             assertNull(newCellContainer.get(new_x, new_y));
             assertEquals(5, newCellContainer.get(1, 1).getRegister(0));
             assertEquals(cell.getGenome(), newCellContainer.get(1, 1).getGenome());
+            assertEquals(1, newCellContainer.get(1, 1).cellStats.age);
         }
 
         @Test
@@ -177,6 +181,9 @@ class CellContainerIterationHelperTest {
             assertNotEquals(null, newCellContainer.get(1, 1));
             assertEquals(1, newCellContainer.get(1,1).getRegister(0));
             assertEquals(1, newCellContainer.get(new_cell_x, new_cell_y).cellStats.lineage);
+            assertEquals(0, newCellContainer.get(new_cell_x, new_cell_y).cellStats.age);
+            assertEquals(1, newCellContainer.get(1, 1).cellStats.virility);
+            assertEquals(1, newCellContainer.get(1, 1).cellStats.age);
         }
 
         @Test
@@ -225,6 +232,7 @@ class CellContainerIterationHelperTest {
             assertEquals(null, newCellContainer.get(new_cell_x, new_cell_y));
             assertNotEquals(null, newCellContainer.get(1, 1));
             assertEquals(reproductionHandler.reproductionEnergyCost(cell)-1, newCellContainer.get(1, 1).getRegister(0) );
+            assertEquals(1, newCellContainer.get(1, 1).cellStats.age);
         }
 
         @Test
@@ -253,6 +261,7 @@ class CellContainerIterationHelperTest {
             assertEquals(blocking_cell.getGenome(), newCellContainer.get(new_cell_x, new_cell_y).getGenome());
             assertEquals(cell.getGenome(), newCellContainer.get(1, 1).getGenome());
             assertEquals(reproductionHandler.reproductionEnergyCost(cell)+1, newCellContainer.get(1, 1).getRegister(0) );
+            assertEquals(1, newCellContainer.get(1, 1).cellStats.age);
         }
 
         @Test
@@ -288,6 +297,8 @@ class CellContainerIterationHelperTest {
 
             assertEquals(attacker_initial_energy+gained_energy, newCellContainer.get(1,1).getRegister(0b000));
             assertEquals(defender_initial_energy+lost_energy, newCellContainer.get(attacking_x,attacking_y).getRegister(0b000));
+            assertEquals(1, newCellContainer.get(1, 1).cellStats.age);
+            assertEquals(1, newCellContainer.get(attacking_x, attacking_y).cellStats.age);
         }
     }
 

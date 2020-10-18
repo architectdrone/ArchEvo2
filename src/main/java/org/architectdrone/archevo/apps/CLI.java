@@ -21,20 +21,34 @@ public class CLI {
             {
                 longest_lineage = lineages.get(0);
             }
+            List<Integer> ages = a.getCellContainer().getAll().stream().map((cell) -> cell.cellStats.age).sorted().collect(Collectors.toList());
+            Integer eldest = null;
+            if (ages.size() > 0)
+            {
+                eldest = ages.get(0);
+            }
+            List<Integer> virilities = a.getCellContainer().getAll().stream().map((cell) -> cell.cellStats.virility).sorted().collect(Collectors.toList());
+            Integer most_virile = null;
+            if (virilities.size() > 0)
+            {
+                most_virile = virilities.get(0);
+            }
             System.out.println(
                     "I: "+ a.getNumberOfInterations() +
-                    " LIVING ORGANISMS: " + a.getCellContainer().getAll().size() +
-                    " LONGEST LINEAGE: "+longest_lineage);
+                    " ORG: " + a.getCellContainer().getAll().size() +
+                    " LIN: "+longest_lineage +
+                    " AGE: " +ages +
+                    " VIR: " +most_virile);
         }, 10000);
 
         Universe universe = new Universe(new ASIA(),
-                25,
+                10,
                 IterationExecutionMode.INSTRUCTION_BY_INSTRUCTION,
                 0,
                 new CaptureTheFlag(),
                 new SetCost(),
                 0.001f,
-                10,
+                5,
                 64,
                 42069);
         List<Task> taskList = new ArrayList<>();

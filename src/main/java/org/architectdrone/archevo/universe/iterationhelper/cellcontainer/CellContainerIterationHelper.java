@@ -62,6 +62,7 @@ public class CellContainerIterationHelper {
 
 
         cellIterationResultAndPositionList.forEach((a) -> {
+            a.cell.cellStats.age++; //Increment age.
             if (a.action != null) {
                 if (a.action instanceof Move)
                 {
@@ -106,6 +107,7 @@ public class CellContainerIterationHelper {
                             newCellContainer.set(reproducing_x, reproducing_y, baby_cell);
 
                             a.cell.setRegister(0, a.cell.getRegister(0)-reproductionHandler.reproductionEnergyCost(a.cell));
+                            a.cell.cellStats.virility++;
                         } catch (IntersectionException e) {
                             //If we encounter an exception, that means a cell is already in the place the parent wanted to reproduce in.
                         }
