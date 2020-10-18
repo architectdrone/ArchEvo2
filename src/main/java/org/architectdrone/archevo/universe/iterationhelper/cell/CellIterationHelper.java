@@ -40,6 +40,7 @@ public class CellIterationHelper {
                 new_cell.setIP(0);
             }
         }
+        new_cell.cellStats = cell.cellStats;
         return new CellIterationResult(new_cell, action_to_return);
     }
 }

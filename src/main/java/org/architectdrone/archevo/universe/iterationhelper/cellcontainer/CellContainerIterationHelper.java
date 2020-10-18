@@ -103,7 +103,7 @@ public class CellContainerIterationHelper {
                     {
                         try {
                             Cell baby_cell = getBabyCell(a.cell, reproductionHandler.newCellEnergy(a.cell), mutation_chance, random, isa);
-                            baby_cell.cellStats.lineage = a.cell.cellStats.lineage + 1;
+                            baby_cell.cellStats.lineage++;
                             newCellContainer.set(reproducing_x, reproducing_y, baby_cell);
 
                             a.cell.setRegister(0, a.cell.getRegister(0)-reproductionHandler.reproductionEnergyCost(a.cell));
