@@ -311,4 +311,17 @@ class CaptureTheFlagPercentageTest {
         assertEquals(expected_change, combatResult.getAttackerEnergyChange());
         assertEquals(0-expected_change, combatResult.getDefenderEnergyChange());
     }
+
+    @Test
+    void getResult_defenderIsNull_attackerLosesPoints() {
+        Cell attacker = new Cell(new ArrayList<>(), null);
+        Cell defender = null;
+
+        int guess = 0b00000000;
+        attacker.setRegister(0b010, guess);
+
+        CombatResult combatResult = new CaptureTheFlagPercentage().getResult(attacker, defender);
+        assertEquals(-CaptureTheFlagPercentage.NULL_PENALTY, combatResult.getAttackerEnergyChange());
+        assertEquals(0, combatResult.getDefenderEnergyChange());
+    }
 }

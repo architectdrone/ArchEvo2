@@ -13,10 +13,15 @@ import org.architectdrone.archevo.cell.Cell;
  * 6 bits -> Attacker takes 1/4   of the other cell's energy
  * 7 bits -> Attacker takes 1/2   of the other cell's energy
  * 8 bits -> Attacker takes all   of the other cell's energy
+ * If defender is null, attacker loses 10 points of energy.
  */
 public class CaptureTheFlagPercentage implements CombatHandler {
+    public static int NULL_PENALTY = 10;
     @Override
     public CombatResult getResult(Cell attacker, Cell defender) {
+        if (defender == null)
+            return new CombatResult(0, -NULL_PENALTY);
+
         int score = 0;
         int guess = attacker.getRegister(0b010);
         int logo  = defender.getRegister(0b001);
