@@ -81,7 +81,7 @@ class CellContainerIterationHelperTest {
 
             cell = new Cell(genome, null);
             cell.setRegister(0b111, 0b10000000);
-
+            cell.setRegister(0, 5);
             Move isa_result = (Move) isa.getAction(cell, (x, y) -> null);
 
             cellContainer.set(1, 1, cell);
@@ -89,10 +89,11 @@ class CellContainerIterationHelperTest {
             int new_x = isa_result.getXOffset() + 1;
             int new_y = isa_result.getYOffset() + 1;
 
-            CellContainer newCellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, 0, combatHandler, reproductionHandler, 0.0f, new Random());
+            CellContainer newCellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, 1, combatHandler, reproductionHandler, 0.0f, new Random());
 
             assertNotEquals(null, newCellContainer.get(new_x, new_y));
             assertEquals(null, newCellContainer.get(1, 1));
+            assertEquals(4, newCellContainer.get(new_x, new_y).getRegister(0));
         }
 
         @Test
@@ -104,7 +105,7 @@ class CellContainerIterationHelperTest {
 
             cell = new Cell(genome, null);
             cell.setRegister(0b111, 0b10000000);
-
+            cell.setRegister(0, 5);
             Move isa_result = (Move) isa.getAction(cell, (x, y) -> null);
 
             cellContainer.set(1, 1, cell);
@@ -116,10 +117,35 @@ class CellContainerIterationHelperTest {
 
             cellContainer.set(new_x, new_y, blocking_cell);
 
-            CellContainer newCellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, 0, combatHandler, reproductionHandler, 0.0f, new Random());
+            CellContainer newCellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, 1, combatHandler, reproductionHandler, 0.0f, new Random());
 
+            assertEquals(4, newCellContainer.get(1, 1).getRegister(0));
             assertEquals(cell.getGenome(), newCellContainer.get(1, 1).getGenome());
             assertEquals(blocking_cell.getGenome(), newCellContainer.get(new_x, new_y).getGenome());
+        }
+
+        @Test
+        void MoveAction_whenNotEnoughEnergy () throws Exception {
+            Integer binary_instruction = isa.stringToBinary("MOVE");
+
+            List<Integer> genome = new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("UNASSIGNED")));
+            genome.set(0, binary_instruction);
+
+            cell = new Cell(genome, null);
+            cell.setRegister(0b111, 0b10000000);
+            cell.setRegister(0, 5);
+            Move isa_result = (Move) isa.getAction(cell, (x, y) -> null);
+
+            cellContainer.set(1, 1, cell);
+
+            int new_x = isa_result.getXOffset() + 1;
+            int new_y = isa_result.getYOffset() + 1;
+
+            CellContainer newCellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, 6, combatHandler, reproductionHandler, 0.0f, new Random());
+
+            assertNull(newCellContainer.get(new_x, new_y));
+            assertEquals(5, newCellContainer.get(1, 1).getRegister(0));
+            assertEquals(cell.getGenome(), newCellContainer.get(1, 1).getGenome());
         }
 
         @Test

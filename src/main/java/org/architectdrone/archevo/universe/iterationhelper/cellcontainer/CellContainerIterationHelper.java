@@ -35,6 +35,7 @@ public class CellContainerIterationHelper {
             Random random) {
         List<CellIterationResultAndPosition> cellIterationResultAndPositionList = cellContainer.getAllPositions()
                 .stream()
+                .filter((cellPosition -> !cellPosition.cell.isDead()))
                 .map((cellPosition) -> {
                     CellIterationResult cellIterationResult = CellIterationHelper.iterate(
                             cellPosition.cell,
@@ -64,16 +65,19 @@ public class CellContainerIterationHelper {
             if (a.action != null) {
                 if (a.action instanceof Move)
                 {
-                    Move move = (Move) a.action;
-                    int new_x = a.x+move.getXOffset();
-                    int new_y = a.y+move.getYOffset();
+                    if (a.cell.getRegister(0) > move_cost)
+                    {
+                        Move move = (Move) a.action;
+                        int new_x = a.x+move.getXOffset();
+                        int new_y = a.y+move.getYOffset();
 
-                    try {
-                        a.cell.setRegister(0, a.cell.getRegister(0)-move_cost);
-                        newCellContainer.set(new_x, new_y, a.cell);
-                        newCellContainer.delete(a.x, a.y);
-                    } catch (IntersectionException e) {
-                        //In this case we do nothing. The cell cannot move to the new location, because a cell is already there.
+                        try {
+                            a.cell.setRegister(0, a.cell.getRegister(0)-move_cost);
+                            newCellContainer.set(new_x, new_y, a.cell);
+                            newCellContainer.delete(a.x, a.y);
+                        } catch (IntersectionException e) {
+                            //In this case we do nothing. The cell cannot move to the new location, because a cell is already there.
+                        }
                     }
                 }
                 else if (a.action instanceof Attack)

@@ -20,6 +20,7 @@ public class Cell {
     private int IP = 0; //Instruction pointer
     private final List<Integer> genome;
     private final ISACachedData isaCachedData;
+    private boolean dead = false;
 
     public Cell(@NotNull List<Integer> genome, final ISA isa) {
         this.registers = new ArrayList<Integer>(Collections.nCopies(8, 0));
@@ -96,6 +97,10 @@ public class Cell {
     public void setRegister(int registerNumber, int newRegisterValue) {
         assert registerNumber >= 0;
         assert registerNumber <= 7;
+        if (registerNumber == 0 && newRegisterValue < 0)
+        {
+            dead = true;
+        }
         registers.set(registerNumber, Math.floorMod(newRegisterValue, MAX_REGISTER_VALUE+1));
     }
 
@@ -126,5 +131,9 @@ public class Cell {
     public ISACachedData getIsaCachedData()
     {
         return isaCachedData;
+    }
+
+    public boolean isDead() {
+        return dead;
     }
 }
