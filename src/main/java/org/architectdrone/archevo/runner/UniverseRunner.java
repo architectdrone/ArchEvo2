@@ -21,7 +21,7 @@ public class UniverseRunner {
 
     public void runIteration() throws Exception {
         tasks.forEach((a) -> {
-            if (a.frequency % universe.getNumberOfInterations() == 0)
+            if ( universe.getNumberOfInterations() % a.frequency  == 0)
             {
                 a.consumer.accept(universe);
             }
