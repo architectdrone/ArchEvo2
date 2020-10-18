@@ -4,14 +4,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import javax.sound.sampled.Line;
 import org.architectdrone.archevo.action.Attack;
 import org.architectdrone.archevo.action.Move;
 import org.architectdrone.archevo.action.RegisterUpdate;
 import org.architectdrone.archevo.action.Reproduce;
 import org.architectdrone.archevo.cell.Cell;
+import org.architectdrone.archevo.cellcontainer.exceptions.IntersectionException;
 import org.architectdrone.archevo.combathandler.CaptureTheFlag;
 import org.architectdrone.archevo.combathandler.CombatHandler;
 import org.architectdrone.archevo.isa.ISA;
+import org.architectdrone.archevo.isa.MalformedInstructionException;
+import org.architectdrone.archevo.isa.ParsingException;
 import org.architectdrone.archevo.isa.asia.ASIA;
 import org.architectdrone.archevo.isa.asia.ASIARegister;
 import org.architectdrone.archevo.reproductionhandler.ReproductionHandler;
@@ -284,6 +288,19 @@ class CellContainerIterationHelperTest {
             assertEquals(attacker_initial_energy+gained_energy, newCellContainer.get(1,1).getRegister(0b000));
             assertEquals(defender_initial_energy+lost_energy, newCellContainer.get(attacking_x,attacking_y).getRegister(0b000));
         }
+    }
+
+    @Test
+    void deadCells_areRemoved() throws ParsingException, MalformedInstructionException, IntersectionException {
+        cellContainer = new LinearContainer(15);
+
+        List<Integer> genome = new ArrayList<>(Collections.nCopies(16, isa.stringToBinary("UNASSIGNED")));;
+        Cell cell = new Cell(genome, null);
+        cell.setRegister(0, -5);
+        assertTrue(cell.isDead());
+        cellContainer.set(1, 1, cell);
+        CellContainer newCellContainer = CellContainerIterationHelper.iterate(cellContainer, isa, iterationExecutionMode, 0, combatHandler, reproductionHandler, 0.0f, new Random());
+        assertEquals(0, newCellContainer.getAll().size());
     }
 
     @Test

@@ -186,4 +186,10 @@ class CellTest {
         test_cell.setIP(test_genome.size());
         assertEquals(0, test_cell.getIP());
     }
+
+    @Test
+    void settingEnergyLessThan0_killsTheCell() {
+        test_cell.setRegister(0, -5);
+        assertTrue(test_cell.isDead());
+    }
 }
