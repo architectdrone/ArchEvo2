@@ -11,6 +11,8 @@ import org.architectdrone.archevo.action.Attack;
 import org.architectdrone.archevo.action.Move;
 import org.architectdrone.archevo.action.Reproduce;
 import org.architectdrone.archevo.cell.Cell;
+import org.architectdrone.archevo.cellcontainer.exceptions.AlreadyLoadedException;
+import org.architectdrone.archevo.cellcontainer.exceptions.IntersectionException;
 import org.architectdrone.archevo.combathandler.CombatHandler;
 import org.architectdrone.archevo.combathandler.CombatResult;
 import org.architectdrone.archevo.isa.ISA;
@@ -30,7 +32,7 @@ public class CellContainerIterationHelper {
             CombatHandler combatHandler,
             ReproductionHandler reproductionHandler,
             float mutation_chance,
-            Random random) throws Exception {
+            Random random) {
         List<CellIterationResultAndPosition> cellIterationResultAndPositionList = cellContainer.getAllPositions()
                 .stream()
                 .map((cellPosition) -> {
@@ -42,9 +44,21 @@ public class CellContainerIterationHelper {
                     return new CellIterationResultAndPosition(cellIterationResult, cellPosition);
                 }).collect(Collectors.toList());
 
-        Constructor constructor  = cellContainer.getClass().getConstructor(Integer.class);
-        CellContainer newCellContainer = (CellContainer) constructor.newInstance(cellContainer.getSize());
-        newCellContainer.load(cellIterationResultAndPositionList.stream().map((a) -> new CellPosition(a.cell, a.x, a.y)).collect(Collectors.toList()));
+        CellContainer newCellContainer;
+        try {
+            Constructor constructor  = cellContainer.getClass().getConstructor(Integer.class);
+            newCellContainer = (CellContainer) constructor.newInstance(cellContainer.getSize());
+            newCellContainer.load(cellIterationResultAndPositionList.stream().map((a) -> new CellPosition(a.cell, a.x, a.y)).collect(Collectors.toList()));
+        }
+        catch (NoSuchMethodException e)
+        {
+            throw new RuntimeException("CellContainers must have a constructor that takes an Integer.");
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException("General instantiation failure. This is probably the fault of whatever CellContainer you are using.");
+        }
+
 
         cellIterationResultAndPositionList.forEach((a) -> {
             if (a.action != null) {
@@ -58,7 +72,7 @@ public class CellContainerIterationHelper {
                         a.cell.setRegister(0, a.cell.getRegister(0)-move_cost);
                         newCellContainer.set(new_x, new_y, a.cell);
                         newCellContainer.delete(a.x, a.y);
-                    } catch (Exception e) {
+                    } catch (IntersectionException e) {
                         //In this case we do nothing. The cell cannot move to the new location, because a cell is already there.
                     }
                 }
@@ -85,7 +99,7 @@ public class CellContainerIterationHelper {
                         try {
                             newCellContainer.set(reproducing_x, reproducing_y, getBabyCell(a.cell, reproductionHandler.newCellEnergy(a.cell), mutation_chance, random, isa));
                             a.cell.setRegister(0, a.cell.getRegister(0)-reproductionHandler.reproductionEnergyCost(a.cell));
-                        } catch (Exception e) {
+                        } catch (IntersectionException e) {
                             //If we encounter an exception, that means a cell is already in the place the parent wanted to reproduce in.
                         }
                     }

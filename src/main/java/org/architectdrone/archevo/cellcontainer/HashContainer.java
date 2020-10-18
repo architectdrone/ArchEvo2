@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import org.architectdrone.archevo.cell.Cell;
+import org.architectdrone.archevo.cellcontainer.exceptions.AlreadyLoadedException;
+import org.architectdrone.archevo.cellcontainer.exceptions.IntersectionException;
 
 public class HashContainer implements CellContainer {
 
@@ -24,14 +26,14 @@ public class HashContainer implements CellContainer {
     }
 
     @Override
-    public void set(final int x, final int y, final Cell cell) throws Exception {
+    public void set(final int x, final int y, final Cell cell) throws IntersectionException {
         int true_x = Math.floorMod(x, size);
         int true_y = Math.floorMod(y, size);
 
         cells_are_loaded = true;
         if (entries.get(new Coordinate(true_x, true_y)) != null)
         {
-            throw exception_to_throw;
+            throw new IntersectionException();
         }
 
         Coordinate coordinate = new Coordinate(true_x, true_y);
@@ -64,10 +66,10 @@ public class HashContainer implements CellContainer {
     }
 
     @Override
-    public void load(final List<CellPosition> cells) throws Exception {
+    public void load(final List<CellPosition> cells) throws AlreadyLoadedException {
         if (cells_are_loaded)
         {
-            throw exception_to_throw;
+            throw new AlreadyLoadedException();
         }
         cells_are_loaded = true;
         cells.forEach((a) -> entries.put(new Coordinate(a.x, a.y), a.cell));

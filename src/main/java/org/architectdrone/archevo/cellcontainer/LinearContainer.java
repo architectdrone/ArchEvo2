@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.architectdrone.archevo.cell.Cell;
+import org.architectdrone.archevo.cellcontainer.exceptions.AlreadyLoadedException;
+import org.architectdrone.archevo.cellcontainer.exceptions.IntersectionException;
 
 public class LinearContainer implements CellContainer {
     private List<CellPosition> all_cell_data;
@@ -18,7 +20,7 @@ public class LinearContainer implements CellContainer {
     }
 
     @Override
-    public void set(final int x, final int y, final Cell cell) throws Exception {
+    public void set(final int x, final int y, final Cell cell) throws IntersectionException {
         int true_x = Math.floorMod(x, size);
         int true_y = Math.floorMod(y, size);
         if (all_cell_data.stream().filter((a) -> a.x == true_x && a.y == true_y).count() == 0)
@@ -27,7 +29,7 @@ public class LinearContainer implements CellContainer {
         }
         else
         {
-            throw new Exception("A cell already exists there.");
+            throw new IntersectionException();
         }
 
     }
@@ -63,10 +65,10 @@ public class LinearContainer implements CellContainer {
     }
 
     @Override
-    public void load(final List<CellPosition> cells) throws Exception {
+    public void load(final List<CellPosition> cells) throws AlreadyLoadedException {
         if (all_cell_data.size() != 0)
         {
-            throw new Exception("Data already exists");
+            throw new AlreadyLoadedException();
         }
 
         this.all_cell_data = cells.stream().map((a) -> new CellPosition(a.cell, Math.floorMod(a.x, size), Math.floorMod(a.y, size))).collect(Collectors.toList());
