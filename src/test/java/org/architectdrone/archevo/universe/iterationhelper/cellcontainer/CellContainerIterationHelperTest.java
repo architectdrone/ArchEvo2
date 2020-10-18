@@ -387,7 +387,7 @@ class CellContainerIterationHelperTest {
         long elapsed_ms = end-start;
         float iterations_per_ms = (float) number_of_iterations/ (float) elapsed_ms;
         int iterations_per_s = (int) (iterations_per_ms * (float) 1000);
-        System.out.println("RUN_UNTIL_STATE_CHANGE_OR_N runs at about " + iterations_per_s + " iterations per second.");
+        System.out.println("INSTRUCTION_BY_INSTRUCTION runs at about " + iterations_per_s + " iterations per second.");
         System.out.println(cellContainer.get(0, 0));
     }
 

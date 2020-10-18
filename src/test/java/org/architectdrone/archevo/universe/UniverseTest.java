@@ -20,6 +20,7 @@ class UniverseTest {
                 new SetCost(),
                 0.3f,
                 3,
+                32,
                 42069);
         universe.iterate();
         assertEquals(3, universe.getCellContainer().getAll().size());

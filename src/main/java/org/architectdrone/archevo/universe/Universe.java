@@ -21,6 +21,7 @@ public class Universe {
     public final int move_cost;
     public final ReproductionHandler reproductionHandler;
     public final CombatHandler combatHandler;
+    public final int initial_energy;
     public final int seed;
     private final Random randomness;
     public final float mutation_chance;
@@ -35,6 +36,7 @@ public class Universe {
             ReproductionHandler reproductionHandler,
             final float mutation_chance,
             final int influx_rate,
+            final int initial_energy,
             final int seed)
     {
         this.isa = isa;
@@ -43,6 +45,7 @@ public class Universe {
         this.move_cost = move_cost;
         this.combatHandler = combatHandler;
         this.reproductionHandler = reproductionHandler;
+        this.initial_energy = initial_energy;
         this.seed = seed;
         this.randomness = new Random(seed);
         this.mutation_chance = mutation_chance;
@@ -71,6 +74,8 @@ public class Universe {
         for (int i = 0; i < 16; i++) {
             genome.add(randomness.nextInt((int) Math.pow(2, isa.getNumberOfBitsPerInstruction())) );
         }
-        cellContainer.set(x, y, new Cell(genome, isa));
+        Cell cell = new Cell(genome, isa);
+        cell.setRegister(0, initial_energy);
+        cellContainer.set(x, y, cell);
     }
 }
