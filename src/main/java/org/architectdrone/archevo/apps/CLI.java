@@ -19,25 +19,25 @@ public class CLI {
             Integer longest_lineage = null;
             if (lineages.size() > 0)
             {
-                longest_lineage = lineages.get(0);
+                longest_lineage = lineages.get(lineages.size()-1);
             }
             List<Integer> ages = a.getCellContainer().getAll().stream().map((cell) -> cell.cellStats.age).sorted().collect(Collectors.toList());
             Integer eldest = null;
             if (ages.size() > 0)
             {
-                eldest = ages.get(0);
+                eldest = ages.get(ages.size()-1);
             }
             List<Integer> virilities = a.getCellContainer().getAll().stream().map((cell) -> cell.cellStats.virility).sorted().collect(Collectors.toList());
             Integer most_virile = null;
             if (virilities.size() > 0)
             {
-                most_virile = virilities.get(0);
+                most_virile = virilities.get(virilities.size()-1);
             }
             System.out.println(
                     "I: "+ a.getNumberOfInterations() +
                     " ORG: " + a.getCellContainer().getAll().size() +
                     " LIN: "+longest_lineage +
-                    " AGE: " +ages +
+                    " AGE: " +eldest +
                     " VIR: " +most_virile);
         }, 10000);
 
