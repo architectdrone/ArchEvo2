@@ -7,7 +7,10 @@ import java.util.stream.Collectors;
 import org.architectdrone.archevo.cell.Cell;
 import org.architectdrone.archevo.combathandler.CaptureTheFlag;
 import org.architectdrone.archevo.combathandler.CaptureTheFlagPercentage;
+import org.architectdrone.archevo.combathandler.CombatHandler;
+import org.architectdrone.archevo.isa.ISA;
 import org.architectdrone.archevo.isa.asia.ASIA;
+import org.architectdrone.archevo.reproductionhandler.ReproductionHandler;
 import org.architectdrone.archevo.reproductionhandler.SetCost;
 import org.architectdrone.archevo.runner.Task;
 import org.architectdrone.archevo.runner.UniverseRunner;
@@ -15,13 +18,23 @@ import org.architectdrone.archevo.universe.IterationExecutionMode;
 import org.architectdrone.archevo.universe.Universe;
 
 public class CLI {
+    public static int INFLUX_RATE = 1;
+    public static float MUTATION_RATE = 0.001f;
+    public static int WORLD_SIZE = 20;
+    public static IterationExecutionMode ITERATION_EXECUTION_MODE = IterationExecutionMode.INSTRUCTION_BY_INSTRUCTION;
+    public static int MOVE_COST = 0;
+    public static int ITERATION_COST = 0;
+    public static CombatHandler COMBAT_HANDLER = new CaptureTheFlagPercentage();
+    public static ReproductionHandler REPRODUCTION_HANDLER = new SetCost();
+    public static int RANDOM_CELL_INITIAL_ENERGY = 64;
+    public static ISA ISA_TO_USE = new ASIA();
     public static void main(String[] args) throws Exception {
         Task update = new Task((a) -> {
             Cell longest_lineage_cell = getLongestLineageCell(a.getCellContainer().getAll());
             Cell oldest_cell = getOldestCell(a.getCellContainer().getAll());
             Cell most_viral_cell = getMostViralCell(a.getCellContainer().getAll());
 
-            if (oldest_cell != null)
+            if (oldest_cell != null && longest_lineage_cell != null && most_viral_cell != null)
             {
                 System.out.println(
                         "I: "+ a.getNumberOfInterations() +
@@ -39,16 +52,17 @@ public class CLI {
 
         }, 10000);
 
-        Universe universe = new Universe(new ASIA(),
-                10,
-                IterationExecutionMode.INSTRUCTION_BY_INSTRUCTION,
-                1,
-                1,
-                new CaptureTheFlagPercentage(),
-                new SetCost(),
-                0.001f,
-                5,
-                64,
+        Universe universe = new Universe(
+                ISA_TO_USE,
+                WORLD_SIZE,
+                ITERATION_EXECUTION_MODE,
+                MOVE_COST,
+                ITERATION_COST,
+                COMBAT_HANDLER,
+                REPRODUCTION_HANDLER,
+                MUTATION_RATE,
+                INFLUX_RATE,
+                RANDOM_CELL_INITIAL_ENERGY,
                 42069);
         List<Task> taskList = new ArrayList<>();
         taskList.add(update);
