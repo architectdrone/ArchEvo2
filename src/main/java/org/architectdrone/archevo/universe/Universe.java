@@ -27,6 +27,7 @@ public class Universe {
     public final float mutation_chance;
     public final int influx_rate;
     public final int iteration_cost;
+    public final int number_of_genes;
     @Getter
     private int numberOfInterations = 0;
     public Universe(ISA isa,
@@ -38,7 +39,7 @@ public class Universe {
                     final float mutation_chance,
                     final int influx_rate,
                     final int initial_energy,
-                    final int seed)
+                    int number_of_genes, final int seed)
     {
         this.isa = isa;
         this.cellContainer = new LinearContainer(universe_size);
@@ -48,6 +49,7 @@ public class Universe {
         this.combatHandler = combatHandler;
         this.reproductionHandler = reproductionHandler;
         this.initial_energy = initial_energy;
+        this.number_of_genes = number_of_genes;
         this.seed = seed;
         this.randomness = new Random(seed);
         this.mutation_chance = mutation_chance;
@@ -73,7 +75,7 @@ public class Universe {
 
     private void addRandomCell(int x, int y) throws Exception {
         List<Integer> genome = new ArrayList<>();
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < number_of_genes; i++) {
             genome.add(randomness.nextInt((int) Math.pow(2, isa.getNumberOfBitsPerInstruction())) );
         }
         Cell cell = new Cell(genome, isa);

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.architectdrone.archevo.cell.Cell;
-import org.architectdrone.archevo.combathandler.CaptureTheFlag;
 import org.architectdrone.archevo.combathandler.CaptureTheFlagPercentage;
 import org.architectdrone.archevo.combathandler.CombatHandler;
 import org.architectdrone.archevo.isa.ISA;
@@ -24,6 +23,7 @@ public class CLI {
     public static int RANDOM_CELL_INITIAL_ENERGY = 64;
     public static int MOVE_COST = 0;
     public static int ITERATION_COST = 0;
+    public static int NUMBER_OF_GENES = 32;
 
     public static IterationExecutionMode ITERATION_EXECUTION_MODE = IterationExecutionMode.INSTRUCTION_BY_INSTRUCTION;
     public static CombatHandler COMBAT_HANDLER = new CaptureTheFlagPercentage();
@@ -39,17 +39,11 @@ public class CLI {
             if (oldest_cell != null && longest_lineage_cell != null && most_viral_cell != null)
             {
                 System.out.println(
-                        "I: "+ a.getNumberOfInterations() +
-                                " ORG: " + a.getCellContainer().getAll().size() +
-                                " LIN: "+ longest_lineage_cell.cellStats.lineage +
-                                " AGE: " +oldest_cell.cellStats.age +
-                                " VIR: " +most_viral_cell.cellStats.virility);
-
-                if (longest_lineage_cell.cellStats.lineage >= 2)
-                {
-                    System.out.println("The cell with the longest lineage has the following genome:");
-                    printCell(most_viral_cell);
-                }
+                         "I: "+ a.getNumberOfInterations() +
+                        " ORG: " + a.getCellContainer().getAll().size() +
+                        " LIN: "+ longest_lineage_cell.cellStats.lineage +
+                        " AGE: " +oldest_cell.cellStats.age +
+                        " VIR: " +most_viral_cell.cellStats.virility);
             }
 
         }, 10000);
@@ -65,6 +59,7 @@ public class CLI {
                 MUTATION_RATE,
                 INFLUX_RATE,
                 RANDOM_CELL_INITIAL_ENERGY,
+                NUMBER_OF_GENES,
                 42069);
         List<Task> taskList = new ArrayList<>();
         taskList.add(update);
