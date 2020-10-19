@@ -21,13 +21,15 @@ public class CLI {
     public static int INFLUX_RATE = 1;
     public static float MUTATION_RATE = 0.001f;
     public static int WORLD_SIZE = 20;
-    public static IterationExecutionMode ITERATION_EXECUTION_MODE = IterationExecutionMode.INSTRUCTION_BY_INSTRUCTION;
+    public static int RANDOM_CELL_INITIAL_ENERGY = 64;
     public static int MOVE_COST = 0;
     public static int ITERATION_COST = 0;
+
+    public static IterationExecutionMode ITERATION_EXECUTION_MODE = IterationExecutionMode.INSTRUCTION_BY_INSTRUCTION;
     public static CombatHandler COMBAT_HANDLER = new CaptureTheFlagPercentage();
-    public static ReproductionHandler REPRODUCTION_HANDLER = new SetCost();
-    public static int RANDOM_CELL_INITIAL_ENERGY = 64;
+    public static ReproductionHandler REPRODUCTION_HANDLER = new SetCost(RANDOM_CELL_INITIAL_ENERGY);
     public static ISA ISA_TO_USE = new ASIA();
+
     public static void main(String[] args) throws Exception {
         Task update = new Task((a) -> {
             Cell longest_lineage_cell = getLongestLineageCell(a.getCellContainer().getAll());

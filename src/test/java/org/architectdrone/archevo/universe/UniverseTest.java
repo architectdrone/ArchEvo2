@@ -18,7 +18,7 @@ class UniverseTest {
                 1,
                 0,
                 new CaptureTheFlag(),
-                new SetCost(),
+                new SetCost(64),
                 0.3f,
                 3,
                 32,

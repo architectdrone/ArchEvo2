@@ -43,7 +43,7 @@ class CellContainerIterationHelperTest {
         isa = new ASIA();
         combatHandler = new CaptureTheFlag();
         size = 20;
-        reproductionHandler = new SetCost();
+        reproductionHandler = new SetCost(64);
 
     }
 
